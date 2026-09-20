@@ -3,9 +3,9 @@ import path from 'path';
 import sharp from 'sharp';
 
 const DOODLES = [
-  { name: 'grill-doodle.png', slot: 'grill' },
-  { name: 'roll-doodle.png', slot: 'roll' },
-  { name: 'bite-doodle.png', slot: 'bite' }
+  { name: 'grill-doodle.png', slot: 'grill', envelopeBlur: 80, borderBlur: 26 },
+  { name: 'roll-doodle.png', slot: 'roll', envelopeBlur: 60, borderBlur: 24 },
+  { name: 'bite-doodle.png', slot: 'bite', envelopeBlur: 90, borderBlur: 26 }
 ];
 
 const PHOTOS = [
@@ -22,7 +22,7 @@ const PHOTO_OUT_DIR = path.resolve('public/assets/section4/photos');
 fs.mkdirSync(STICKER_OUT_DIR, { recursive: true });
 fs.mkdirSync(PHOTO_OUT_DIR, { recursive: true });
 
-async function processDoodle(item) {
+async function processDoodleSticker(item) {
   const srcPath = path.join(STICKER_SRC_DIR, item.name);
   if (!fs.existsSync(srcPath)) {
     console.error(`ERROR: Missing doodle source file: ${srcPath}`);
@@ -31,80 +31,139 @@ async function processDoodle(item) {
 
   const outPath = path.join(STICKER_OUT_DIR, item.name);
   const image = sharp(srcPath);
-
   const { data, info } = await image.raw().toBuffer({ resolveWithObject: true });
-  const channels = info.channels;
-  const totalPixels = info.width * info.height;
+  const w = info.width, h = info.height, ch = info.channels;
 
-  let hasInitialAlpha = false;
-  if (channels === 4) {
-    let transCount = 0;
-    for (let i = 3; i < data.length; i += 4) {
-      if (data[i] < 250) transCount++;
-    }
-    if ((transCount / totalPixels) >= 0.02) {
-      hasInitialAlpha = true;
+  // 1. Identify red ink pixels
+  const inkMask = Buffer.alloc(w * h);
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const idx = (y * w + x) * ch;
+      const g = data[idx + 1], b = data[idx + 2];
+      // Red ink has distinct distance from white
+      if (Math.max(255 - g, 255 - b) > 30) {
+        inkMask[y * w + x] = 255;
+      }
     }
   }
 
-  let method = 'direct-copy';
+  // 2. Dilate ink to bridge strokes and create outer boundary
+  const envelope = await sharp(inkMask, { raw: { width: w, height: h, channels: 1 } })
+    .blur(item.envelopeBlur)
+    .extractChannel(0)
+    .toBuffer();
 
-  if (hasInitialAlpha) {
-    fs.copyFileSync(srcPath, outPath);
-  } else {
-    method = 'white-to-alpha';
-    // Convert near-white background to transparent alpha preserving red line art
-    const outBuf = Buffer.alloc(info.width * info.height * 4);
-    for (let i = 0, j = 0; i < data.length; i += channels, j += 4) {
-      const r = data[i];
-      const g = data[i + 1];
-      const b = data[i + 2];
+  const solidMask = new Uint8Array(w * h);
+  for (let i = 0; i < w * h; i++) {
+    if (envelope[i] > 2) solidMask[i] = 1;
+  }
 
-      // Difference from pure white (255, 255, 255)
-      const diff = Math.max(255 - r, 255 - g, 255 - b);
-      let alpha = 0;
-      if (diff < 8) {
-        alpha = 0;
-      } else if (diff < 28) {
-        alpha = Math.round(((diff - 8) / 20) * 255);
+  // 3. Flood-fill from borders to find exterior background
+  const visited = new Uint8Array(w * h);
+  const queue = [];
+  function enqueue(x, y) {
+    const idx = y * w + x;
+    if (!visited[idx] && solidMask[idx] === 0) {
+      visited[idx] = 1;
+      queue.push(idx);
+    }
+  }
+  for (let x = 0; x < w; x++) {
+    enqueue(x, 0);
+    enqueue(x, h - 1);
+  }
+  for (let y = 0; y < h; y++) {
+    enqueue(0, y);
+    enqueue(w - 1, y);
+  }
+
+  let head = 0;
+  while (head < queue.length) {
+    const curr = queue[head++];
+    const cx = curr % w;
+    const cy = Math.floor(curr / w);
+    if (cx > 0) enqueue(cx - 1, cy);
+    if (cx < w - 1) enqueue(cx + 1, cy);
+    if (cy > 0) enqueue(cx, cy - 1);
+    if (cy < h - 1) enqueue(cx, cy + 1);
+  }
+
+  // Body mask: everything enclosed inside the sticker
+  const bodyMask = Buffer.alloc(w * h);
+  for (let i = 0; i < w * h; i++) {
+    if (!visited[i]) bodyMask[i] = 255;
+  }
+
+  // 4. Create smooth white die-cut sticker border
+  const borderMask = await sharp(bodyMask, { raw: { width: w, height: h, channels: 1 } })
+    .blur(item.borderBlur)
+    .extractChannel(0)
+    .toBuffer();
+
+  // 5. Composite sticker: Red ink on white background and white die-cut border, transparent outside
+  const finalBuf = Buffer.alloc(w * h * 4);
+  let transPixels = 0;
+  for (let i = 0, j = 0; i < w * h; i++, j += 4) {
+    const bmVal = borderMask[i];
+    if (bmVal > 15) {
+      // Solid white sticker interior & border
+      const srcIdx = i * ch;
+      const g = data[srcIdx + 1], b = data[srcIdx + 2];
+      const isInk = Math.max(255 - g, 255 - b) > 30;
+      if (isInk) {
+        // Red line art
+        finalBuf[j] = data[srcIdx];
+        finalBuf[j + 1] = data[srcIdx + 1];
+        finalBuf[j + 2] = data[srcIdx + 2];
+        finalBuf[j + 3] = 255;
       } else {
-        alpha = 255;
+        // Solid white sticker background
+        finalBuf[j] = 255;
+        finalBuf[j + 1] = 255;
+        finalBuf[j + 2] = 255;
+        finalBuf[j + 3] = 255;
       }
-
-      outBuf[j] = r;
-      outBuf[j + 1] = g;
-      outBuf[j + 2] = b;
-      outBuf[j + 3] = alpha;
+    } else if (bmVal > 2) {
+      // Smooth anti-aliased edge
+      const alpha = Math.round(((bmVal - 2) / 13) * 255);
+      finalBuf[j] = 255;
+      finalBuf[j + 1] = 255;
+      finalBuf[j + 2] = 255;
+      finalBuf[j + 3] = alpha;
+      if (alpha < 250) transPixels++;
+    } else {
+      // Transparent outside
+      finalBuf[j] = 0;
+      finalBuf[j + 1] = 0;
+      finalBuf[j + 2] = 0;
+      finalBuf[j + 3] = 0;
+      transPixels++;
     }
-
-    await sharp(outBuf, {
-      raw: {
-        width: info.width,
-        height: info.height,
-        channels: 4
-      }
-    })
-      .png()
-      .toFile(outPath);
   }
 
-  // Verification on output file
+  // Trim transparent padding and save PNG
+  await sharp(finalBuf, { raw: { width: w, height: h, channels: 4 } })
+    .trim()
+    .png()
+    .toFile(outPath);
+
+  // Verification on generated file
   const verifyMeta = await sharp(outPath).metadata();
   const { data: vData } = await sharp(outPath).raw().toBuffer({ resolveWithObject: true });
-  let transPixels = 0;
+  let verifiedTrans = 0;
   for (let i = 3; i < vData.length; i += 4) {
-    if (vData[i] < 250) transPixels++;
+    if (vData[i] < 250) verifiedTrans++;
   }
-  const transPct = (transPixels / (verifyMeta.width * verifyMeta.height)) * 100;
+  const transPct = (verifiedTrans / (verifyMeta.width * verifyMeta.height)) * 100;
 
   if (transPct < 2.0) {
-    console.error(`ERROR: Doodle ${item.name} has insufficient transparency: ${transPct.toFixed(2)}%`);
+    console.error(`ERROR: Sticker ${item.name} has insufficient transparency: ${transPct.toFixed(2)}%`);
     process.exit(1);
   }
 
   return {
     name: item.name,
-    method,
+    type: 'die-cut white sticker',
     dimensions: `${verifyMeta.width}x${verifyMeta.height}`,
     transparency: `${transPct.toFixed(2)}%`,
     status: 'OK'
@@ -130,14 +189,14 @@ async function processPhoto(item) {
 }
 
 async function main() {
-  console.log('=== PREPARING SECTION 4 ASSETS ===');
-  console.log('\n--- DOODLES ---');
-  const doodleResults = [];
+  console.log('=== PREPARING SECTION 4 ASSETS (WITH WHITE STICKER BACKGROUND & BORDER) ===');
+  console.log('\n--- DOODLE STICKERS ---');
+  const stickerResults = [];
   for (const d of DOODLES) {
-    const res = await processDoodle(d);
-    doodleResults.push(res);
+    const res = await processDoodleSticker(d);
+    stickerResults.push(res);
   }
-  console.table(doodleResults);
+  console.table(stickerResults);
 
   console.log('\n--- PHOTOS ---');
   const photoResults = [];
@@ -146,7 +205,7 @@ async function main() {
     photoResults.push(res);
   }
   console.table(photoResults);
-  console.log('\nAll Section 4 assets prepared successfully.');
+  console.log('\nAll Section 4 sticker and photo assets prepared successfully.');
 }
 
 main().catch(err => {

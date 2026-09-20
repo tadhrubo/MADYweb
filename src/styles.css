@@ -130,7 +130,7 @@
   width: 100%;
   height: auto;
   display: block;
-  filter: drop-shadow(0 4px 10px rgba(155, 27, 32, 0.15));
+  filter: drop-shadow(0 10px 18px rgba(155, 27, 32, 0.25)) drop-shadow(0 2px 4px rgba(26, 11, 11, 0.12));
 }
 
 .story-col-card {
