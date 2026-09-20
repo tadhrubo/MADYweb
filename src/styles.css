@@ -7,8 +7,9 @@
 
 /* SECTION 4 - A STORY IN EVERY BITE */
 .story-section {
-  padding-block: clamp(90px, 10vw, 150px);
-  min-height: clamp(800px, 140svh, 1600px);
+  padding-top: clamp(80px, 8vw, 130px);
+  padding-bottom: clamp(40px, 5vw, 70px);
+  min-height: auto;
   background: var(--yellow);
   color: var(--red);
   position: relative;
