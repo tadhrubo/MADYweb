@@ -1,4 +1,97 @@
-import { motion, useScroll, useTransform } from 'framer-motion'; import { useRef } from 'react'; import { Section } from './Section'
-function Spark(){return <svg className="spark" viewBox="0 0 50 50" aria-hidden="true"><path d="M8 25h14M25 8v14M12 12l10 10M32 32l10 10"/></svg>}
-function Glove({side}:{side:'left'|'right'}){return <div className={`glove glove-${side}`}><motion.div animate={{x:[-6,6,-6]}} transition={{duration:3,repeat:Infinity,ease:'easeInOut'}}><img src="/assets/glove.png" alt="" aria-hidden="true"/></motion.div></div>}
-export function FoodFeel(){const ref=useRef<HTMLElement>(null);const {scrollYProgress}=useScroll({target:ref,offset:['start end','end start']});const y=useTransform(scrollYProgress,[0,1],[15,-30]);return <Section bg="var(--red)" className="food-feel"><section ref={ref} className="food-feel-body"><motion.p className="experience" initial={{scale:0,rotate:-12}} whileInView={{scale:1,rotate:-2}} viewport={{once:true}}>EXPERIENCE</motion.p><div className="feel-title"><motion.h2 initial={{y:'110%'}} whileInView={{y:0}} viewport={{once:true}}>FOOD THAT</motion.h2><motion.h2 className="larger" initial={{y:'110%'}} whileInView={{y:0}} viewport={{once:true}} transition={{delay:.08}}>FEELS GOOD</motion.h2></div><motion.div className="feel-wrap-main" style={{y}} initial={{scale:.85,y:70,opacity:0}} whileInView={{scale:1,opacity:1}} viewport={{once:true}}><img src="/assets/shawarma-hero.png" alt="Mady chicken shawarma in branded paper wrap" width="274" height="458" decoding="async"/><Glove side="left"/><Glove side="right"/><Spark/><Spark/></motion.div><motion.div className="feel-list list-left" initial={{x:-20,opacity:0}} whileInView={{x:0,opacity:1}} viewport={{once:true}}>FRESH CHICKEN<br/>DAILY PREP<br/>HAND ROLLED<Spark/></motion.div><motion.div className="feel-list list-right" initial={{x:20,opacity:0}} whileInView={{x:0,opacity:1}} viewport={{once:true}}>HOT OFF THE GRILL<br/>CRISP VEGGIES<br/>SIGNATURE SAUCE<Spark/></motion.div></section></Section>}
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import { Section } from './Section';
+import { Spark } from './Spark';
+
+function Glove({ side }: { side: 'left' | 'right' }) {
+  return (
+    <div className={`glove glove-${side}`}>
+      <motion.div
+        animate={{ x: [-6, 6, -6] }}
+        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <img src="/assets/glove.png" alt="" aria-hidden="true" />
+      </motion.div>
+    </div>
+  );
+}
+
+export function FoodFeel() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], [15, -30]);
+
+  return (
+    <Section bg="var(--red)" order={2} className="food-feel">
+      <section ref={ref} className="food-feel-body">
+        <motion.p
+          className="experience"
+          initial={{ scale: 0, rotate: -12 }}
+          whileInView={{ scale: 1, rotate: -2 }}
+          viewport={{ once: true }}
+        >
+          EXPERIENCE
+        </motion.p>
+        <div className="feel-title">
+          <motion.h2 initial={{ y: '110%' }} whileInView={{ y: 0 }} viewport={{ once: true }}>
+            FOOD THAT
+          </motion.h2>
+          <motion.h2
+            className="larger"
+            initial={{ y: '110%' }}
+            whileInView={{ y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.08 }}
+          >
+            FEELS GOOD
+          </motion.h2>
+        </div>
+        <motion.div
+          className="feel-wrap-main"
+          style={{ y }}
+          initial={{ scale: 0.85, y: 70, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <img
+            src="/assets/shawarma-hero.png"
+            alt="Mady chicken shawarma in branded paper wrap"
+            width="274"
+            height="458"
+            decoding="async"
+          />
+          <Glove side="left" />
+          <Glove side="right" />
+          <Spark />
+          <Spark />
+        </motion.div>
+        <motion.div
+          className="feel-list list-left"
+          initial={{ x: -20, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          FRESH CHICKEN
+          <br />
+          DAILY PREP
+          <br />
+          HAND ROLLED
+          <Spark />
+        </motion.div>
+        <motion.div
+          className="feel-list list-right"
+          initial={{ x: 20, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          HOT OFF THE GRILL
+          <br />
+          CRISP VEGGIES
+          <br />
+          SIGNATURE SAUCE
+          <Spark />
+        </motion.div>
+      </section>
+    </Section>
+  );
+}
