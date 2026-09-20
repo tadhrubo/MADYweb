@@ -1,0 +1,2 @@
+import { motion } from 'framer-motion'
+export function StickerWord({ text, className, delay }: { text: string; className: string; delay: number }) { return <motion.div className={`sticker ${className}`} initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', delay, stiffness: 280, damping: 14 }} whileHover={{ rotate: [-18, -14, -22, -18], transition: { duration: .4 } }}>{text.split(' ').map((word) => <span key={word}>{word}</span>)}</motion.div> }
