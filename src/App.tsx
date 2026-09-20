@@ -6,6 +6,7 @@ import { Seam } from './components/Seam';
 import { FoodFeel } from './components/FoodFeel';
 import { Section } from './components/Section';
 import { PureQuality } from './components/PureQuality';
+import { StoryBite } from './components/StoryBite';
 
 export default function App() {
   const [ready, setReady] = useState(false);
@@ -22,8 +23,9 @@ export default function App() {
       <Seam />
       <FoodFeel />
       <PureQuality />
-      <Section bg="var(--yellow)" order={4} className="placeholder-section">
-        <h2>Section 4 placeholder</h2>
+      <StoryBite />
+      <Section bg="var(--bg)" order={5} className="placeholder-section">
+        <h2>Section 5 placeholder</h2>
       </Section>
     </div>
   );
