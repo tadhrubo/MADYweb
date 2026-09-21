@@ -30,11 +30,11 @@ export function FoodFeel() {
           whileInView={{ scale: 1, rotate: -2 }}
           viewport={{ once: true }}
         >
-          EXPERIENCE
+          STREET FOOD
         </motion.p>
         <div className="feel-title">
           <motion.h2 initial={{ y: '110%' }} whileInView={{ y: 0 }} viewport={{ once: true }}>
-            FOOD THAT
+            DONE DANGEROUSLY
           </motion.h2>
           <motion.h2
             className="larger"
@@ -43,7 +43,7 @@ export function FoodFeel() {
             viewport={{ once: true }}
             transition={{ delay: 0.08 }}
           >
-            FEELS GOOD
+            RIGHT
           </motion.h2>
         </div>
         <motion.div

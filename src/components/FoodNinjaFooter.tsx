@@ -732,7 +732,7 @@ export function FoodNinjaFooter() {
         {/* Row 2: Sub-bar with Tagline & Game Prompt */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[var(--ink)]/80 font-['Bebas_Neue'] text-sm sm:text-base tracking-widest">
           <div>
-            SHAVED FRESH &bull; MAD GARLIC &bull; BEWARE YOU WILL GO MAD
+            CARVED HOT &bull; MAD GARLIC &bull; BEWARE YOU WILL GO MAD
           </div>
           <div className="text-[var(--red)] flex items-center gap-2">
             <span className="footer-badge-dot inline-block" />

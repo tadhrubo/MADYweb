@@ -5,7 +5,7 @@ import { ingredients, Ingredient } from '../content/ingredients';
 import { Magnet } from './Magnet';
 import { Spark } from './Spark';
 
-const HEADLINE_LINES = ['EVERY LAYER', 'PACKED WITH', 'SIGNATURE', 'FLAVOR'];
+const HEADLINE_LINES = ['BUILT', 'DIFFERENT', 'FROM THE', 'BREAD UP'];
 
 const DESKTOP_SPARKS = [
   { id: 'sp-chicken', style: { left: '5%', top: '8%' } },
@@ -172,7 +172,7 @@ export function PureQuality() {
             viewport={{ once: true }}
             transition={{ type: 'spring', duration: 0.6, bounce: 0.35 }}
           >
-            PURE QUALITY
+            ZERO SHORTCUTS
           </motion.p>
           <motion.div
             className="quality-headline"
