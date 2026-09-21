@@ -55,6 +55,19 @@ const ROWS: StoryRow[] = [
   }
 ];
 
+function getDoodleStyle(row: StoryRow, scrollY: number): React.CSSProperties {
+  if (row.doodleSrc.includes('grill-doodle.png') || row.id === 'grill') {
+    return { transform: `rotate(${scrollY * 0.1}deg)` };
+  }
+  if (row.doodleSrc.includes('roll-doodle.png') || row.id === 'roll') {
+    return { transform: `rotate(-${scrollY * 0.08}deg)` };
+  }
+  if (row.doodleSrc.includes('bite-doodle.png') || row.id === 'bite') {
+    return { transform: `rotate(${scrollY * 0.12}deg)` };
+  }
+  return {};
+}
+
 export function StoryBite() {
   const prefersReduced = useReducedMotion();
   const rowsContainerRef = useRef<HTMLDivElement>(null);
@@ -62,6 +75,19 @@ export function StoryBite() {
   const card3Ref = useRef<HTMLDivElement>(null);
 
   const [connectorGeometry, setConnectorGeometry] = useState<{ top: number; height: number } | null>(null);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     function updateConnector() {
@@ -199,6 +225,7 @@ export function StoryBite() {
                         alt={row.doodleAlt}
                         className="story-doodle-img"
                         loading="lazy"
+                        style={getDoodleStyle(row, scrollY)}
                       />
                     </div>
                   </motion.div>
