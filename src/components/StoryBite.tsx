@@ -204,9 +204,9 @@ export function StoryBite() {
                 transition={{ staggerChildren: 0.15 }}
               >
                 {/* Left Column: Doodle */}
-                <div className="story-col story-col-doodle">
+                <div className="story-col story-col-doodle relative z-50">
                   <motion.div
-                    className="story-doodle-entrance"
+                    className="story-doodle-entrance relative z-50"
                     variants={{
                       hidden: { x: prefersReduced ? 0 : -60, opacity: 0 },
                       visible: {
@@ -217,7 +217,7 @@ export function StoryBite() {
                     }}
                   >
                     <div
-                      className="story-doodle-sway"
+                      className="story-doodle-sway relative z-50"
                       style={
                         {
                           '--base-rotate': `${row.doodleRotate}deg`,
@@ -229,7 +229,7 @@ export function StoryBite() {
                       <img
                         src={row.doodleSrc}
                         alt={row.doodleAlt}
-                        className="story-doodle-img drop-shadow-xl"
+                        className="story-doodle-img drop-shadow-xl relative z-50"
                         loading="lazy"
                         style={getDoodleStyle(row, scrollY)}
                       />

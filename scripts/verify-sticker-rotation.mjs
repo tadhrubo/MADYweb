@@ -3,7 +3,7 @@ import fs from 'fs';
 
 fs.mkdirSync('screenshots', { recursive: true });
 
-console.log('=== 3D PEELING + VERTICAL PARALLAX STICKER ANIMATION VERIFICATION ===');
+console.log('=== 3D PEELING + VERTICAL PARALLAX + Z-INDEX STACKING VERIFICATION ===');
 const browser = await chromium.launch({ headless: true });
 
 try {
@@ -30,19 +30,42 @@ try {
   await deskPage.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
   await deskPage.waitForTimeout(2500);
 
-  // Helper to get transforms & classes
+  // Helper to get transforms, classes & computed styles
   async function getDoodleTransforms(page) {
     return await page.evaluate(() => {
       const scrollY = window.scrollY;
       const doodles = Array.from(document.querySelectorAll('.story-section .story-doodle-img'));
       return {
         scrollY,
-        items: doodles.map(img => ({
-          src: img.getAttribute('src'),
-          className: img.className,
-          inlineTransform: img.style.transform,
-          computedTransform: window.getComputedStyle(img).transform
-        }))
+        items: doodles.map(img => {
+          const sway = img.closest('.story-doodle-sway');
+          const entrance = img.closest('.story-doodle-entrance');
+          const col = img.closest('.story-col-doodle');
+          const row = img.closest('.story-row');
+          const cardCol = row ? row.querySelector('.story-col-card') : null;
+
+          const imgStyle = window.getComputedStyle(img);
+          const swayStyle = sway ? window.getComputedStyle(sway) : null;
+          const colStyle = col ? window.getComputedStyle(col) : null;
+          const cardColStyle = cardCol ? window.getComputedStyle(cardCol) : null;
+
+          return {
+            src: img.getAttribute('src'),
+            className: img.className,
+            inlineTransform: img.style.transform,
+            computedTransform: imgStyle.transform,
+            imgZIndex: imgStyle.zIndex,
+            imgPosition: imgStyle.position,
+            swayClassName: sway ? sway.className : '',
+            swayZIndex: swayStyle ? swayStyle.zIndex : '',
+            swayPosition: swayStyle ? swayStyle.position : '',
+            colClassName: col ? col.className : '',
+            colZIndex: colStyle ? colStyle.zIndex : '',
+            colPosition: colStyle ? colStyle.position : '',
+            cardColZIndex: cardColStyle ? cardColStyle.zIndex : '',
+            cardColPosition: cardColStyle ? cardColStyle.position : ''
+          };
+        })
       };
     });
   }
@@ -84,15 +107,42 @@ try {
   // Initial at scrollY = 0
   const initial = await getDoodleTransforms(deskPage);
   console.log('\nInitial scrollY =', initial.scrollY);
-  initial.items.forEach(d => console.log(`  ${d.src} -> inline: "${d.inlineTransform}" [class: ${d.className}]`));
+  initial.items.forEach(d => {
+    console.log(`  ${d.src}:`);
+    console.log(`    img: class="${d.className}" [position: ${d.imgPosition}, zIndex: ${d.imgZIndex}]`);
+    console.log(`    sway: class="${d.swayClassName}" [position: ${d.swayPosition}, zIndex: ${d.swayZIndex}]`);
+    console.log(`    col:  class="${d.colClassName}" [position: ${d.colPosition}, zIndex: ${d.colZIndex}]`);
+    console.log(`    cardCol: [position: ${d.cardColPosition}, zIndex: ${d.cardColZIndex}]`);
+  });
 
-  // Check drop-shadow-xl class on all doodles
+  // Verify z-50 and relative positioning on stickers and wrappers
   for (const d of initial.items) {
     if (!d.className.includes('drop-shadow-xl')) {
       throw new Error(`Doodle ${d.src} does not have 'drop-shadow-xl' class applied!`);
     }
+    if (!d.className.includes('z-50') || !d.className.includes('relative')) {
+      throw new Error(`Doodle ${d.src} does not have 'relative z-50' classes applied!`);
+    }
+    if (d.imgPosition !== 'relative' || d.imgZIndex !== '50') {
+      throw new Error(`Doodle ${d.src} computed position (${d.imgPosition}) or zIndex (${d.imgZIndex}) is not relative/50!`);
+    }
+    if (!d.swayClassName.includes('z-50') || !d.swayClassName.includes('relative')) {
+      throw new Error(`Doodle wrapper .story-doodle-sway does not have 'relative z-50' classes!`);
+    }
+    if (d.swayPosition !== 'relative' || d.swayZIndex !== '50') {
+      throw new Error(`Doodle wrapper computed position or zIndex is not relative/50!`);
+    }
+    if (!d.colClassName.includes('z-50') || !d.colClassName.includes('relative')) {
+      throw new Error(`Doodle column .story-col-doodle does not have 'relative z-50' classes!`);
+    }
+    if (d.colPosition !== 'relative' || d.colZIndex !== '50') {
+      throw new Error(`Doodle column computed position or zIndex is not relative/50!`);
+    }
+    if (parseInt(d.imgZIndex, 10) <= parseInt(d.cardColZIndex, 10)) {
+      throw new Error(`Doodle sticker zIndex (${d.imgZIndex}) is not strictly higher than adjacent photo card (${d.cardColZIndex})!`);
+    }
   }
-  console.log('[PASS] All doodle sticker images have Tailwind drop-shadow-xl applied.');
+  console.log('[PASS] Stacking context verified: doodle stickers and wrappers have relative z-50 (50 > 2 over photo card)!');
 
   // Scroll to 2000px
   await deskPage.evaluate(() => window.scrollTo(0, 2000));
@@ -160,6 +210,21 @@ try {
   await mobilePage.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
   await mobilePage.waitForTimeout(2500);
 
+  // Check mobile z-index & position classes
+  const mobileInitial = await getDoodleTransforms(mobilePage);
+  for (const d of mobileInitial.items) {
+    if (!d.className.includes('z-50') || !d.className.includes('relative')) {
+      throw new Error(`Mobile doodle ${d.src} missing 'relative z-50'!`);
+    }
+    if (d.imgPosition !== 'relative' || d.imgZIndex !== '50') {
+      throw new Error(`Mobile doodle ${d.src} computed style is not relative z-50!`);
+    }
+    if (parseInt(d.imgZIndex, 10) <= parseInt(d.cardColZIndex, 10)) {
+      throw new Error(`Mobile doodle sticker zIndex (${d.imgZIndex}) is not strictly higher than adjacent photo card (${d.cardColZIndex})!`);
+    }
+  }
+  console.log('[PASS] Mobile doodle stickers have relative z-50 and top the stacking context (50 > 2).');
+
   // Scroll down on mobile
   await mobilePage.evaluate(() => window.scrollTo(0, 1800));
   await mobilePage.waitForTimeout(300);
@@ -214,9 +279,9 @@ try {
     animations: 'disabled'
   });
 
-  console.log('\n>>> ALL 3D PEELING + VERTICAL PARALLAX STICKER TESTS PASSED WITH 100% SUCCESS! <<<');
+  console.log('\n>>> ALL 3D PEELING + VERTICAL PARALLAX + Z-INDEX STACKING TESTS PASSED WITH 100% SUCCESS! <<<');
 } catch (err) {
-  console.error('Error during 3D peeling + parallax verification:', err);
+  console.error('Error during verification:', err);
   process.exit(1);
 } finally {
   await browser.close();

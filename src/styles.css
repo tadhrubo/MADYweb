@@ -105,7 +105,8 @@
 .story-col-doodle {
   width: 18cqw;
   margin-right: -3cqw;
-  z-index: 3;
+  position: relative;
+  z-index: 50;
   display: flex;
   justify-content: flex-end;
 }
