@@ -22,8 +22,8 @@ export function FoodFeel() {
   const y = useTransform(scrollYProgress, [0, 1], [15, -30]);
 
   return (
-    <Section bg="var(--red)" order={2} className="food-feel">
-      <section ref={ref} className="food-feel-body">
+    <Section bg="var(--red)" order={2} className="food-feel pb-36 md:pb-0">
+      <section ref={ref} className="food-feel-body pb-36 md:pb-[105px]">
         <motion.p
           className="experience"
           initial={{ scale: 0, rotate: -12 }}
@@ -66,7 +66,7 @@ export function FoodFeel() {
           <Spark />
         </motion.div>
         <motion.div
-          className="feel-list list-left"
+          className="feel-list list-left bottom-[95px] md:bottom-auto"
           initial={{ x: -20, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
           viewport={{ once: true }}
@@ -79,7 +79,7 @@ export function FoodFeel() {
           <Spark />
         </motion.div>
         <motion.div
-          className="feel-list list-right"
+          className="feel-list list-right bottom-[95px] md:bottom-auto"
           initial={{ x: 20, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
           viewport={{ once: true }}

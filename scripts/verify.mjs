@@ -286,7 +286,7 @@ try {
   await testWave('.pure-quality', 'Section 3 Top Wave', (p) => p.r > 200 && p.g > 180 && p.b > 150, 'cream');
 
   // Section 4: Yellow pixel check (R > 200, G > 140, B < 80)
-  await testWave('.placeholder-section', 'Section 4 Top Wave', (p) => p.r > 200 && p.g > 140 && p.b < 80, 'yellow');
+  await testWave('.story-section', 'Section 4 Top Wave', (p) => p.r > 200 && p.g > 140 && p.b < 80, 'yellow');
 
   // prefers-reduced-motion check
   console.log('\nTesting under emulated prefers-reduced-motion: reduce...');
