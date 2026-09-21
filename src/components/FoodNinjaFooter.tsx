@@ -670,9 +670,12 @@ export function FoodNinjaFooter() {
       <WaveEdge fill="var(--bg)" />
 
       {/* Background Watermark Mady Logo */}
-      <div className="footer-bg-logo" aria-hidden="true">
-        MADY
-      </div>
+      <img
+        src="/assets/madySolo.png"
+        alt="Mady Logo"
+        className="footer-bg-logo"
+        aria-hidden="true"
+      />
 
       {/* Floating HUD & Score Counter */}
       <div className="footer-hud">

@@ -336,15 +336,13 @@
   top: 48%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(-3deg);
-  font-family: Anton, 'Bebas Neue', Impact, sans-serif;
-  font-size: clamp(140px, 26vw, 360px);
-  line-height: 0.8;
-  color: transparent;
-  -webkit-text-stroke: 4px rgba(228, 27, 35, 0.12);
-  text-shadow: 6px 6px 0 rgba(155, 27, 32, 0.06);
+  width: min(78vw, 860px);
+  height: auto;
+  opacity: 0.28;
+  filter: drop-shadow(0 14px 28px rgba(155, 27, 32, 0.16));
   pointer-events: none;
   z-index: 1;
-  letter-spacing: 0.02em;
+  user-select: none;
 }
 
 .footer-hud {
@@ -479,7 +477,7 @@
     padding-top: 70px;
   }
   .footer-bg-logo {
-    font-size: 120px;
+    width: 88vw;
   }
   .score-counter {
     font-size: 24px;
