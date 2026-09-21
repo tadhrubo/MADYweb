@@ -27,8 +27,12 @@ export function Seam() {
             />
           </defs>
           <text>
-            <textPath href="#seamCircle">
-              BEWARE YOU WILL GO MAD · BEWARE YOU WILL GO MAD ·{' '}
+            <textPath
+              href="#seamCircle"
+              textLength="970"
+              lengthAdjust="spacing"
+            >
+              BEWARE YOU WILL GO MAD · BEWARE YOU WILL GO MAD · BEWARE YOU WILL GO MAD · BEWARE YOU WILL GO MAD ·{' '}
             </textPath>
           </text>
           <image
