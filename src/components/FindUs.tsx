@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { MapPin, Navigation, Clock } from 'lucide-react';
+import { MapPin, Navigation, Clock, Facebook, Instagram } from 'lucide-react';
 import { Section } from './Section';
 import { Spark } from './Spark';
 
@@ -150,6 +150,54 @@ export function FindUs() {
             </motion.article>
           ))}
         </div>
+
+        {/* Order Online & Social Media Connect Bar */}
+        <motion.div
+          initial={{ y: 25, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.25 }}
+          className="mt-10 bg-white/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 border-3 border-white shadow-[0_12px_32px_rgba(155,27,32,0.08)] flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <div className="text-center md:text-left">
+            <h3 className="font-['Anton'] text-2xl sm:text-3xl text-[var(--red)] tracking-wide m-0">
+              CAN'T VISIT IN PERSON?
+            </h3>
+            <p className="font-['Outfit'] font-medium text-sm sm:text-base text-[var(--ink)] opacity-80 m-0 mt-1">
+              Order fresh delivery directly to your door on Foodpanda, or connect with us on social.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
+            <a
+              href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-['Bebas_Neue'] text-lg tracking-wider text-white bg-[#D70F64] hover:bg-[#b50c53] px-5 py-2.5 rounded-full shadow-md transition-all hover:scale-105"
+            >
+              ORDER ON FOODPANDA
+            </a>
+            <a
+              href="https://www.facebook.com/profile.php?id=61587293055358"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-['Bebas_Neue'] text-lg tracking-wider text-white bg-[var(--red)] hover:bg-[var(--maroon)] px-4 py-2.5 rounded-full shadow-md transition-all hover:scale-105"
+              aria-label="Mady on Facebook"
+            >
+              <Facebook size={18} />
+              FACEBOOK
+            </a>
+            <a
+              href="https://www.instagram.com/mady.bd"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-['Bebas_Neue'] text-lg tracking-wider text-white bg-[var(--red)] hover:bg-[var(--maroon)] px-4 py-2.5 rounded-full shadow-md transition-all hover:scale-105"
+              aria-label="Mady on Instagram"
+            >
+              <Instagram size={18} />
+              INSTAGRAM
+            </a>
+          </div>
+        </motion.div>
       </div>
     </Section>
   );

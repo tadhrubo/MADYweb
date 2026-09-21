@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Facebook, Instagram } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 function Roll({ children }: { children: string }) {
@@ -36,6 +36,26 @@ export function Header({ ready }: { ready: boolean }) {
       <nav>
         <a className="pill solid" href="#find-us">
           <Roll>FIND US</Roll>
+        </a>
+        <a
+          href="https://www.facebook.com/profile.php?id=61587293055358"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pill outline !px-3 hidden sm:inline-flex"
+          aria-label="Mady on Facebook"
+          title="Facebook"
+        >
+          <Facebook size={18} />
+        </a>
+        <a
+          href="https://www.instagram.com/mady.bd"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pill outline !px-3 hidden sm:inline-flex"
+          aria-label="Mady on Instagram"
+          title="Instagram"
+        >
+          <Instagram size={18} />
         </a>
         <button
           className="pill outline"
@@ -84,9 +104,43 @@ export function Header({ ready }: { ready: boolean }) {
                 </a>
               ))}
             </div>
+
+            {/* Mobile Drawer Order & Social Links */}
+            <div className="mt-8 flex flex-col items-center gap-4">
+              <a
+                href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-['Bebas_Neue'] text-xl sm:text-2xl tracking-widest text-[var(--red)] bg-[var(--yellow)] px-8 py-2.5 rounded-full border-2 border-white shadow-lg hover:scale-105 transition-all"
+              >
+                ORDER ON FOODPANDA
+              </a>
+
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://www.facebook.com/profile.php?id=61587293055358"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-full bg-white text-[var(--red)] flex items-center justify-center hover:bg-[var(--yellow)] transition-all shadow-md"
+                  aria-label="Facebook"
+                >
+                  <Facebook size={22} />
+                </a>
+                <a
+                  href="https://www.instagram.com/mady.bd"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-full bg-white text-[var(--red)] flex items-center justify-center hover:bg-[var(--yellow)] transition-all shadow-md"
+                  aria-label="Instagram"
+                >
+                  <Instagram size={22} />
+                </a>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
     </motion.header>
   );
 }
+

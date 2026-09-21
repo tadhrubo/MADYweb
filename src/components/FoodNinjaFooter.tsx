@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Matter from 'matter-js';
+import { Facebook, Instagram } from 'lucide-react';
 import { WaveEdge } from './WaveEdge';
 
 interface FoodType {
@@ -688,10 +689,12 @@ export function FoodNinjaFooter() {
         {/* Horizontal Navigation Links */}
         <nav className="footer-nav flex items-center justify-center gap-6 sm:gap-8 mt-2 pointer-events-auto z-10">
           <a
-            href="#menu"
+            href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
+            target="_blank"
+            rel="noopener noreferrer"
             className="font-['Bebas_Neue'] text-lg sm:text-xl tracking-widest text-[var(--red)] hover:text-[var(--maroon)] transition-colors underline-offset-4 hover:underline"
           >
-            MENU
+            ORDER NOW
           </a>
           <a
             href="#find-us"
@@ -723,6 +726,31 @@ export function FoodNinjaFooter() {
       <div className="footer-bottom-bar">
         <div className="footer-wordmark">Mady</div>
         <p className="footer-tag">BEWARE YOU WILL GO MAD.</p>
+
+        {/* Social Buttons */}
+        <div className="flex items-center justify-center gap-3 my-3 pointer-events-auto">
+          <a
+            href="https://www.facebook.com/profile.php?id=61587293055358"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--red)] text-white font-['Bebas_Neue'] text-base tracking-wider hover:bg-[var(--maroon)] hover:scale-105 transition-all shadow-sm"
+            aria-label="Mady on Facebook"
+          >
+            <Facebook size={16} />
+            FACEBOOK
+          </a>
+          <a
+            href="https://www.instagram.com/mady.bd"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--red)] text-white font-['Bebas_Neue'] text-base tracking-wider hover:bg-[var(--maroon)] hover:scale-105 transition-all shadow-sm"
+            aria-label="Mady on Instagram"
+          >
+            <Instagram size={16} />
+            INSTAGRAM
+          </a>
+        </div>
+
         <p className="footer-copy">&copy; {new Date().getFullYear()} MADY SHAWARMA. ALL RIGHTS RESERVED.</p>
       </div>
     </footer>
