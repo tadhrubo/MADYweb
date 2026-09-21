@@ -19,7 +19,7 @@ export function Seam() {
         transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
         aria-hidden="true"
       >
-        <svg viewBox="0 0 400 400">
+        <svg viewBox="0 0 400 400" className="w-full h-full">
           <defs>
             <path
               id="seamCircle"
@@ -31,9 +31,18 @@ export function Seam() {
               BEWARE YOU WILL GO MAD · BEWARE YOU WILL GO MAD ·{' '}
             </textPath>
           </text>
+          <image
+            href="/assets/madySolo.png"
+            x="85"
+            y="85"
+            width="230"
+            height="230"
+            preserveAspectRatio="xMidYMid meet"
+          />
         </svg>
       </motion.div>
     </div>
   );
 }
+
 

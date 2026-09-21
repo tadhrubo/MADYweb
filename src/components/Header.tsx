@@ -30,8 +30,9 @@ export function Header({ ready }: { ready: boolean }) {
       transition={{ duration: 0.6 }}
     >
       <a className="wordmark" href="#top" aria-label="Mady home">
-        <img src="/assets/mady-logo.png" alt="Mady" width="180" height="76" decoding="async" />
+        <img src="/assets/madySolo.png" alt="Mady" width="180" height="76" decoding="async" />
       </a>
+
 
       <nav>
         <a className="pill solid" href="#find-us">

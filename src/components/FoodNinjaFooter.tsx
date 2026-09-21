@@ -724,9 +724,6 @@ export function FoodNinjaFooter() {
 
       {/* Footer Branding & Copyright at Bottom */}
       <div className="footer-bottom-bar">
-        <div className="footer-wordmark">Mady</div>
-        <p className="footer-tag">BEWARE YOU WILL GO MAD.</p>
-
         {/* Social Buttons */}
         <div className="flex items-center justify-center gap-3 my-3 pointer-events-auto">
           <a
