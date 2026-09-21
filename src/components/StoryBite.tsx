@@ -58,17 +58,17 @@ const ROWS: StoryRow[] = [
 function getDoodleStyle(row: StoryRow, scrollY: number): React.CSSProperties {
   if (row.doodleSrc.includes('grill-doodle.png') || row.id === 'grill') {
     return {
-      transform: `perspective(500px) rotate(${Math.sin(scrollY * 0.005) * 12}deg) rotateX(${Math.cos(scrollY * 0.005) * 15}deg)`
+      transform: `translateY(${scrollY * 0.15}px) perspective(500px) rotate(${Math.sin(scrollY * 0.005) * 12}deg) rotateX(${Math.cos(scrollY * 0.005) * 15}deg)`
     };
   }
   if (row.doodleSrc.includes('roll-doodle.png') || row.id === 'roll') {
     return {
-      transform: `perspective(500px) rotate(${-Math.sin(scrollY * 0.005) * 10}deg) rotateY(${Math.cos(scrollY * 0.005) * 18}deg)`
+      transform: `translateY(${scrollY * -0.1}px) perspective(500px) rotate(${-Math.sin(scrollY * 0.005) * 10}deg) rotateY(${Math.cos(scrollY * 0.005) * 18}deg)`
     };
   }
   if (row.doodleSrc.includes('bite-doodle.png') || row.id === 'bite') {
     return {
-      transform: `perspective(500px) rotate(${Math.cos(scrollY * 0.005) * 14}deg) rotateX(${Math.sin(scrollY * 0.005) * 12}deg)`
+      transform: `translateY(${scrollY * 0.08}px) perspective(500px) rotate(${Math.cos(scrollY * 0.005) * 14}deg) rotateX(${Math.sin(scrollY * 0.005) * 12}deg)`
     };
   }
   return {};
