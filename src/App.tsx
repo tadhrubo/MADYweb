@@ -4,9 +4,9 @@ import { Hero } from './components/Hero';
 import { Preloader } from './components/Preloader';
 import { Seam } from './components/Seam';
 import { FoodFeel } from './components/FoodFeel';
-import { Section } from './components/Section';
 import { PureQuality } from './components/PureQuality';
 import { StoryBite } from './components/StoryBite';
+import { FoodNinjaFooter } from './components/FoodNinjaFooter';
 
 export default function App() {
   const [ready, setReady] = useState(false);
@@ -24,9 +24,8 @@ export default function App() {
       <FoodFeel />
       <PureQuality />
       <StoryBite />
-      <Section bg="var(--bg)" order={5} className="placeholder-section">
-        <h2>Section 5 placeholder</h2>
-      </Section>
+      <FoodNinjaFooter />
     </div>
   );
 }
+
