@@ -670,49 +670,87 @@ export function FoodNinjaFooter() {
     <footer className={`footer-container ${isShaking ? 'screen-shake' : ''}`} ref={containerRef}>
       <WaveEdge fill="var(--bg)" />
 
-      {/* Background Watermark Mady Logo */}
-      <img
-        src="/assets/madySolo.png"
-        alt="Mady Logo"
-        className="footer-bg-logo"
-        aria-hidden="true"
-      />
+      {/* Top Header Bar (Crav Burger Style) */}
+      <div className="footer-crav-header relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 md:px-12 pt-4 sm:pt-6 pointer-events-auto">
+        {/* Row 1: Nav Links & Rights Reserved */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          {/* Navigation Links + Social Links */}
+          <nav className="flex flex-wrap items-center gap-x-6 sm:gap-x-8 md:gap-x-10 gap-y-2">
+            <a
+              href="#top"
+              className="font-['Bebas_Neue'] text-xl sm:text-2xl tracking-wider text-[var(--ink)] hover:text-[var(--red)] transition-colors"
+            >
+              HOME
+            </a>
+            <a
+              href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-['Bebas_Neue'] text-xl sm:text-2xl tracking-wider text-[var(--ink)] hover:text-[var(--red)] transition-colors"
+            >
+              MENU
+            </a>
+            <a
+              href="#find-us"
+              className="font-['Bebas_Neue'] text-xl sm:text-2xl tracking-wider text-[var(--ink)] hover:text-[var(--red)] transition-colors"
+            >
+              CONTACT
+            </a>
+            <a
+              href="#top"
+              className="font-['Bebas_Neue'] text-xl sm:text-2xl tracking-wider text-[var(--ink)] hover:text-[var(--red)] transition-colors"
+            >
+              ABOUT
+            </a>
+            <a
+              href="https://www.facebook.com/profile.php?id=61587293055358"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-['Bebas_Neue'] text-xl sm:text-2xl tracking-wider text-[var(--red)] hover:text-[var(--maroon)] transition-colors"
+            >
+              FACEBOOK
+            </a>
+            <a
+              href="https://www.instagram.com/mady.bd"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-['Bebas_Neue'] text-xl sm:text-2xl tracking-wider text-[var(--red)] hover:text-[var(--maroon)] transition-colors"
+            >
+              INSTAGRAM
+            </a>
+          </nav>
 
-      {/* Floating HUD & Navigation Links */}
-      <div className="footer-hud">
-        <div className="footer-badge">
-          <span className="footer-badge-dot" />
-          FOOD NINJA ARENA
+          {/* Rights Reserved */}
+          <div className="font-['Bebas_Neue'] text-lg sm:text-xl tracking-wider text-[var(--ink)] opacity-85 shrink-0">
+            &copy; {new Date().getFullYear()} MADY &mdash; ALL RIGHTS RESERVED
+          </div>
         </div>
-        <p className="footer-hint">SWIPE / DRAG TO SLICE &bull; AVOID THE BOMBS!</p>
 
-        {/* Horizontal Navigation Links */}
-        <nav className="footer-nav flex items-center justify-center gap-6 sm:gap-8 mt-2 pointer-events-auto z-10">
-          <a
-            href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-['Bebas_Neue'] text-lg sm:text-xl tracking-widest text-[var(--red)] hover:text-[var(--maroon)] transition-colors underline-offset-4 hover:underline"
-          >
-            ORDER NOW
-          </a>
-          <a
-            href="#find-us"
-            className="font-['Bebas_Neue'] text-lg sm:text-xl tracking-widest text-[var(--red)] hover:text-[var(--maroon)] transition-colors underline-offset-4 hover:underline"
-          >
-            CONTACT
-          </a>
-          <a
-            href="#top"
-            className="font-['Bebas_Neue'] text-lg sm:text-xl tracking-widest text-[var(--red)] hover:text-[var(--maroon)] transition-colors underline-offset-4 hover:underline"
-          >
-            ABOUT
-          </a>
-        </nav>
+        {/* Thin Divider Line */}
+        <div className="w-full h-px bg-[var(--ink)]/20 my-3 sm:my-3.5" />
+
+        {/* Row 2: Sub-bar with Tagline & Game Prompt */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[var(--ink)]/80 font-['Bebas_Neue'] text-sm sm:text-base tracking-widest">
+          <div>
+            SHAVED FRESH &bull; MAD GARLIC &bull; BEWARE YOU WILL GO MAD
+          </div>
+          <div className="text-[var(--red)] flex items-center gap-2">
+            <span className="footer-badge-dot inline-block" />
+            SWIPE TO SLICE &bull; AVOID BOMBS
+          </div>
+        </div>
       </div>
 
       {/* Interactive Physics Canvas */}
       <canvas id="ninja-canvas" className="ninja-canvas" ref={canvasRef} />
+
+      {/* Massive Crav-Style Mady Logo at Bottom */}
+      <img
+        src="/assets/madySolo.png"
+        alt="Mady"
+        className="footer-giant-logo"
+        aria-hidden="true"
+      />
 
       {/* Absolute Bottom-Right Score Counter */}
       <div
@@ -720,35 +758,6 @@ export function FoodNinjaFooter() {
         className="score-counter absolute bottom-6 right-6 md:bottom-8 md:right-8 z-20 pointer-events-auto"
       >
         Score: <span id="score">{score}</span>
-      </div>
-
-      {/* Footer Branding & Copyright at Bottom */}
-      <div className="footer-bottom-bar">
-        {/* Social Buttons */}
-        <div className="flex items-center justify-center gap-3 my-3 pointer-events-auto">
-          <a
-            href="https://www.facebook.com/profile.php?id=61587293055358"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--red)] text-white font-['Bebas_Neue'] text-base tracking-wider hover:bg-[var(--maroon)] hover:scale-105 transition-all shadow-sm"
-            aria-label="Mady on Facebook"
-          >
-            <Facebook size={16} />
-            FACEBOOK
-          </a>
-          <a
-            href="https://www.instagram.com/mady.bd"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--red)] text-white font-['Bebas_Neue'] text-base tracking-wider hover:bg-[var(--maroon)] hover:scale-105 transition-all shadow-sm"
-            aria-label="Mady on Instagram"
-          >
-            <Instagram size={16} />
-            INSTAGRAM
-          </a>
-        </div>
-
-        <p className="footer-copy">&copy; {new Date().getFullYear()} MADY SHAWARMA. ALL RIGHTS RESERVED.</p>
       </div>
     </footer>
   );
