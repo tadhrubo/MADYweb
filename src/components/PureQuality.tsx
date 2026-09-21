@@ -1,5 +1,5 @@
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Section } from './Section';
 import { ingredients, Ingredient } from '../content/ingredients';
 import { Magnet } from './Magnet';
@@ -20,17 +20,6 @@ const DESKTOP_SPARKS = [
   { id: 'sp-flatbread', style: { left: '92%', top: '76%' } },
 ];
 
-const MOBILE_POSITIONS: Record<string, { left: number; top: number }> = {
-  chicken: { left: 4, top: 4 },
-  lettuce: { left: 27, top: 10 },
-  'garlic-sauce': { left: 50, top: 2 },
-  'red-onion': { left: 72, top: 8 },
-  tomato: { left: 6, top: 52 },
-  pickles: { left: 28, top: 56 },
-  chili: { left: 51, top: 50 },
-  flatbread: { left: 71, top: 54 },
-};
-
 function IngredientItem({
   item,
   index,
@@ -41,6 +30,15 @@ function IngredientItem({
   sectionRef: React.RefObject<HTMLElement | null>;
 }) {
   const shouldReduceMotion = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const updateSize = () => setIsMobile(window.innerWidth < 768);
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
@@ -49,13 +47,12 @@ function IngredientItem({
   const parallaxY = useTransform(
     scrollYProgress,
     [0, 1],
-    shouldReduceMotion ? [0, 0] : [-item.depth * 28, item.depth * 28]
+    shouldReduceMotion || isMobile ? [0, 0] : [-item.depth * 28, item.depth * 28]
   );
 
   const entranceX = item.side === 'left' ? -140 : 140;
   const initialRotate = item.rotate + (item.side === 'left' ? -25 : 25);
-  const floatDistance = Math.min(12, Math.max(6, item.float * 1.5));
-  const mob = MOBILE_POSITIONS[item.slot] ?? { left: item.left, top: item.top };
+  const floatDistance = isMobile ? 4 : Math.min(12, Math.max(6, item.float * 1.5));
 
   return (
     // 1. Entrance / Parallax wrapper
@@ -67,27 +64,25 @@ function IngredientItem({
           '--desk-top': `${item.top}%`,
           '--desk-width': `${item.width}%`,
           '--desk-rotate': `${item.rotate}deg`,
-          '--mob-left': `${mob.left}%`,
-          '--mob-top': `${mob.top}%`,
           y: parallaxY,
         } as any
       }
       initial={
         shouldReduceMotion
           ? { opacity: 0 }
-          : { x: entranceX, rotate: initialRotate, opacity: 0 }
+          : { y: 24, scale: 0.88, opacity: 0 }
       }
       whileInView={
         shouldReduceMotion
           ? { opacity: 1 }
-          : { x: 0, rotate: item.rotate, opacity: 1 }
+          : { y: 0, scale: 1, opacity: 1 }
       }
-      viewport={{ once: true, margin: '-40px' }}
+      viewport={{ once: true, margin: '20px' }}
       transition={{
         type: 'spring',
-        duration: 0.9,
+        duration: 0.8,
         bounce: 0.25,
-        delay: index * 0.08,
+        delay: index * 0.05,
       }}
     >
       {/* 2. Float wrapper */}
@@ -143,13 +138,31 @@ const lineVariants = {
   },
 };
 
+const TOP_SLOTS = ['chicken', 'lettuce', 'garlic-sauce', 'red-onion'];
+const BOTTOM_SLOTS = ['tomato', 'pickles', 'chili', 'flatbread'];
+
 export function PureQuality() {
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
+  const topIngredients = ingredients.filter((item) => TOP_SLOTS.includes(item.slot));
+  const bottomIngredients = ingredients.filter((item) => BOTTOM_SLOTS.includes(item.slot));
+
   return (
     <Section bg="var(--bg)" order={3} className="pure-quality">
       <div ref={sectionRef as React.RefObject<HTMLDivElement>} className="quality-stage">
+        {/* Mobile Top Row: 4 Ingredients wrapping above headline; Desktop: dissolves via md:contents */}
+        <div className="mobile-ingredients-top grid grid-cols-4 gap-2 w-full max-w-md mx-auto px-2 mb-3 md:contents">
+          {topIngredients.map((item, index) => (
+            <IngredientItem
+              key={item.slot}
+              item={item}
+              index={index}
+              sectionRef={sectionRef}
+            />
+          ))}
+        </div>
+
         {/* Eyebrow and Headline block centered in stage */}
         <div className="quality-headline-block">
           <motion.p
@@ -181,13 +194,13 @@ export function PureQuality() {
           </motion.div>
         </div>
 
-        {/* 8 Ingredient images with nested transforms */}
-        <div className="mobile-cluster">
-          {ingredients.map((item, index) => (
+        {/* Mobile Bottom Row: 4 Ingredients wrapping below headline; Desktop: dissolves via md:contents */}
+        <div className="mobile-ingredients-bottom grid grid-cols-4 gap-2 w-full max-w-md mx-auto px-2 mt-3 md:contents">
+          {bottomIngredients.map((item, index) => (
             <IngredientItem
               key={item.slot}
               item={item}
-              index={index}
+              index={index + 4}
               sectionRef={sectionRef}
             />
           ))}

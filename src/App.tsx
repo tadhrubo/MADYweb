@@ -6,6 +6,7 @@ import { Seam } from './components/Seam';
 import { FoodFeel } from './components/FoodFeel';
 import { PureQuality } from './components/PureQuality';
 import { StoryBite } from './components/StoryBite';
+import { FindUs } from './components/FindUs';
 import { FoodNinjaFooter } from './components/FoodNinjaFooter';
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
       <FoodFeel />
       <PureQuality />
       <StoryBite />
+      <FindUs />
       <FoodNinjaFooter />
     </div>
   );

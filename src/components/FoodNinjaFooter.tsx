@@ -677,20 +677,47 @@ export function FoodNinjaFooter() {
         aria-hidden="true"
       />
 
-      {/* Floating HUD & Score Counter */}
+      {/* Floating HUD & Navigation Links */}
       <div className="footer-hud">
         <div className="footer-badge">
           <span className="footer-badge-dot" />
           FOOD NINJA ARENA
         </div>
-        <div id="score-counter" className="score-counter">
-          Score: <span id="score">{score}</span>
-        </div>
         <p className="footer-hint">SWIPE / DRAG TO SLICE &bull; AVOID THE BOMBS!</p>
+
+        {/* Horizontal Navigation Links */}
+        <nav className="footer-nav flex items-center justify-center gap-6 sm:gap-8 mt-2 pointer-events-auto z-10">
+          <a
+            href="#menu"
+            className="font-['Bebas_Neue'] text-lg sm:text-xl tracking-widest text-[var(--red)] hover:text-[var(--maroon)] transition-colors underline-offset-4 hover:underline"
+          >
+            MENU
+          </a>
+          <a
+            href="#find-us"
+            className="font-['Bebas_Neue'] text-lg sm:text-xl tracking-widest text-[var(--red)] hover:text-[var(--maroon)] transition-colors underline-offset-4 hover:underline"
+          >
+            CONTACT
+          </a>
+          <a
+            href="#top"
+            className="font-['Bebas_Neue'] text-lg sm:text-xl tracking-widest text-[var(--red)] hover:text-[var(--maroon)] transition-colors underline-offset-4 hover:underline"
+          >
+            ABOUT
+          </a>
+        </nav>
       </div>
 
       {/* Interactive Physics Canvas */}
       <canvas id="ninja-canvas" className="ninja-canvas" ref={canvasRef} />
+
+      {/* Absolute Bottom-Right Score Counter */}
+      <div
+        id="score-counter"
+        className="score-counter absolute bottom-6 right-6 md:bottom-8 md:right-8 z-20 pointer-events-auto"
+      >
+        Score: <span id="score">{score}</span>
+      </div>
 
       {/* Footer Branding & Copyright at Bottom */}
       <div className="footer-bottom-bar">
