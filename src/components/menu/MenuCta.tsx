@@ -5,7 +5,7 @@ import { DoodleShawarmaMascot } from './Doodles';
 
 export function MenuCta() {
   return (
-    <section className="relative w-full overflow-hidden bg-[var(--bg)] mt-8">
+    <section id="shawarma-cta" className="relative w-full overflow-hidden bg-[var(--bg)] mt-8 scroll-mt-12">
       {/* Top Wave Edge transitioning into Red */}
       <WavyDivider fill="var(--red)" position="top" variant="red-cta" />
 

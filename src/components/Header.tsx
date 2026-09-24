@@ -30,10 +30,33 @@ export function Header({
 
   const navigateTo = (path: string) => {
     setOpen(false);
-    if (path.startsWith('/#') || path.startsWith('#')) {
-      if (isMenuPage && path.startsWith('#')) {
-        window.location.href = '/' + path;
+    if (path === '/menu') {
+      if (isMenuPage) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
+      }
+      window.location.href = '/menu';
+      return;
+    }
+    if (path === '/' || path === '#top') {
+      if (!isMenuPage) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      window.location.href = '/';
+      return;
+    }
+    if (path.startsWith('/#') || path.startsWith('#')) {
+      if (isMenuPage) {
+        window.location.href = path.startsWith('/#') ? path : '/' + path;
+        return;
+      } else {
+        const hash = path.replace('/#', '#');
+        const el = document.querySelector(hash);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
       }
     }
     window.location.href = path;
@@ -41,7 +64,7 @@ export function Header({
 
   return (
     <motion.header
-      className={`header ${open ? 'menu-open z-[1000]' : 'z-20'}`}
+      className={`header ${open ? 'menu-open z-[1000]' : 'z-50'}`}
       initial={{ y: -30, opacity: 0 }}
       animate={ready ? { y: 0, opacity: 1 } : {}}
       transition={{ duration: 0.6 }}
@@ -62,11 +85,23 @@ export function Header({
 
       <nav>
         {isMenuPage ? (
-          <a className="pill solid" href="/#wrap">
+          <a
+            className="pill solid cursor-pointer"
+            href="#shawarma-cta"
+            onClick={(e) => {
+              e.preventDefault();
+              const el = document.getElementById('shawarma-cta') || document.getElementById('snacks');
+              if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+              } else {
+                window.location.href = '/#wrap';
+              }
+            }}
+          >
             <Roll>SHAWARMA</Roll>
           </a>
         ) : (
-          <a className="pill solid" href="/menu">
+          <a className="pill solid cursor-pointer" href="/menu">
             <Roll>MENU</Roll>
           </a>
         )}
@@ -74,7 +109,7 @@ export function Header({
           href="https://www.facebook.com/profile.php?id=61587293055358"
           target="_blank"
           rel="noopener noreferrer"
-          className="pill outline !px-3 hidden sm:inline-flex"
+          className="pill outline !px-3 hidden sm:inline-flex cursor-pointer"
           aria-label="Mady on Facebook"
           title="Facebook"
         >
@@ -84,14 +119,14 @@ export function Header({
           href="https://www.instagram.com/mady.bd"
           target="_blank"
           rel="noopener noreferrer"
-          className="pill outline !px-3 hidden sm:inline-flex"
+          className="pill outline !px-3 hidden sm:inline-flex cursor-pointer"
           aria-label="Mady on Instagram"
           title="Instagram"
         >
           <Instagram size={18} />
         </a>
         <button
-          className={`pill outline ${isMenuPage ? 'border-2 !border-[var(--red)] font-bold' : ''}`}
+          className={`pill outline cursor-pointer ${isMenuPage ? 'border-2 !border-[var(--red)] font-bold' : ''}`}
           onClick={() => setOpen(true)}
           aria-haspopup="dialog"
           aria-expanded={open}

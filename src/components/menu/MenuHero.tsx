@@ -17,7 +17,7 @@ export function MenuHero() {
       />
 
       {/* LEFT FOOD CUTOUT: Shawarma Wrap on Left Flank */}
-      <div className="absolute left-0 sm:left-2 md:left-4 lg:left-8 xl:left-12 top-10 sm:top-14 md:top-12 w-28 sm:w-44 md:w-56 lg:w-68 xl:w-80 pointer-events-auto select-none z-20">
+      <div className="absolute left-0 sm:left-2 md:left-4 lg:left-8 xl:left-12 top-10 sm:top-14 md:top-12 w-28 sm:w-44 md:w-56 lg:w-68 xl:w-80 pointer-events-none select-none z-10">
         <div className="relative group">
           <motion.img
             animate={{ y: [0, -8, 0] }}
@@ -38,7 +38,7 @@ export function MenuHero() {
       </div>
 
       {/* RIGHT FOOD CUTOUT: Biryani Bowl on Right Flank */}
-      <div className="absolute right-0 sm:right-2 md:right-4 lg:right-8 xl:right-12 top-8 sm:top-10 md:top-8 w-32 sm:w-48 md:w-60 lg:w-72 xl:w-84 pointer-events-auto select-none z-20">
+      <div className="absolute right-0 sm:right-2 md:right-4 lg:right-8 xl:right-12 top-8 sm:top-10 md:top-8 w-32 sm:w-48 md:w-60 lg:w-72 xl:w-84 pointer-events-none select-none z-10">
         <div className="relative group">
           <motion.img
             animate={{ y: [0, -7, 0] }}
