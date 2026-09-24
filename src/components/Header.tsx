@@ -11,7 +11,13 @@ function Roll({ children }: { children: string }) {
   );
 }
 
-export function Header({ ready }: { ready: boolean }) {
+export function Header({
+  ready = true,
+  isMenuPage = false,
+}: {
+  ready?: boolean;
+  isMenuPage?: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const close = useRef<HTMLButtonElement>(null);
 
@@ -22,6 +28,17 @@ export function Header({ ready }: { ready: boolean }) {
     return () => window.removeEventListener('keydown', esc);
   }, [open]);
 
+  const navigateTo = (path: string) => {
+    setOpen(false);
+    if (path.startsWith('/#') || path.startsWith('#')) {
+      if (isMenuPage && path.startsWith('#')) {
+        window.location.href = '/' + path;
+        return;
+      }
+    }
+    window.location.href = path;
+  };
+
   return (
     <motion.header
       className={`header ${open ? 'menu-open z-[1000]' : 'z-20'}`}
@@ -29,15 +46,30 @@ export function Header({ ready }: { ready: boolean }) {
       animate={ready ? { y: 0, opacity: 1 } : {}}
       transition={{ duration: 0.6 }}
     >
-      <a className="wordmark" href="#top" aria-label="Mady home">
+      <a
+        className="wordmark"
+        href="/"
+        onClick={(e) => {
+          if (isMenuPage) {
+            e.preventDefault();
+            window.location.href = '/';
+          }
+        }}
+        aria-label="Mady home"
+      >
         <img src="/assets/madySolo.png" alt="Mady" width="180" height="76" decoding="async" />
       </a>
 
-
       <nav>
-        <a className="pill solid" href="#find-us">
-          <Roll>FIND US</Roll>
-        </a>
+        {isMenuPage ? (
+          <a className="pill solid" href="/#wrap">
+            <Roll>SHAWARMA</Roll>
+          </a>
+        ) : (
+          <a className="pill solid" href="/menu">
+            <Roll>MENU</Roll>
+          </a>
+        )}
         <a
           href="https://www.facebook.com/profile.php?id=61587293055358"
           target="_blank"
@@ -59,12 +91,12 @@ export function Header({ ready }: { ready: boolean }) {
           <Instagram size={18} />
         </a>
         <button
-          className="pill outline"
+          className={`pill outline ${isMenuPage ? 'border-2 !border-[var(--red)] font-bold' : ''}`}
           onClick={() => setOpen(true)}
           aria-haspopup="dialog"
           aria-expanded={open}
         >
-          <Roll>MENU</Roll>
+          <Roll>{isMenuPage ? 'MENU' : 'NAV'}</Roll>
           <Menu size={18} />
         </button>
       </nav>
@@ -91,14 +123,18 @@ export function Header({ ready }: { ready: boolean }) {
             </button>
             <div className="menu-links">
               {[
-                { label: 'Home', href: '#top' },
-                { label: 'Inside the Wrap', href: '#wrap' },
-                { label: 'Find Us', href: '#find-us' },
-                { label: 'Food Ninja', href: '#ninja-canvas' },
+                { label: 'The Menu', href: '/menu', isExternal: false },
+                { label: 'Home', href: '/', isExternal: false },
+                { label: 'Inside the Wrap', href: '/#wrap', isExternal: false },
+                { label: 'Find Us', href: '/#find-us', isExternal: false },
+                { label: 'Food Ninja', href: '/#ninja-canvas', isExternal: false },
               ].map((item) => (
                 <a
                   key={item.label}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateTo(item.href);
+                  }}
                   href={item.href}
                 >
                   {item.label}
