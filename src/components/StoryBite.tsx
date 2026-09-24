@@ -11,6 +11,7 @@ interface StoryRow {
   doodleAlt: string;
   photoSrc: string;
   photoAlt: string;
+  photoPosition?: string;
   doodleRotate: number;
   swayDuration: string;
   swayDelay: string;
@@ -47,8 +48,9 @@ const ROWS: StoryRow[] = [
     desc: 'Big flavour. Zero boring.',
     doodleSrc: '/assets/section4/stickers/bite-doodle.png',
     doodleAlt: 'Guy taking a huge bite of shawarma doodle',
-    photoSrc: '/assets/section4/photos/bite-photo.jpg',
-    photoAlt: 'Customer taking a bite of delicious shawarma',
+    photoSrc: '/assets/section4/photos/fardin_box.jpg',
+    photoAlt: 'Mady chef holding fresh takeaway boxes in the kitchen',
+    photoPosition: 'center 65%',
     doodleRotate: -10,
     swayDuration: '4.5s',
     swayDelay: '-2.8s'
@@ -256,6 +258,7 @@ export function StoryBite() {
                         alt={row.photoAlt}
                         className="story-card-photo"
                         loading="lazy"
+                        style={row.photoPosition ? { objectPosition: row.photoPosition } : undefined}
                       />
                     </div>
                   </motion.div>
