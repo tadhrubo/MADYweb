@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      'next/image': path.resolve(__dirname, 'src/components/Image.tsx')
+      'next/image': path.resolve(__dirname, 'src/components/Image.tsx'),
+      'next/link': path.resolve(__dirname, 'src/components/Link.tsx')
     }
   },
   server: {

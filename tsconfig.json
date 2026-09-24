@@ -16,7 +16,8 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "next/image": ["./src/components/Image.tsx"]
+      "next/image": ["./src/components/Image.tsx"],
+      "next/link": ["./src/components/Link.tsx"]
     }
   },
   "include": ["src"]
