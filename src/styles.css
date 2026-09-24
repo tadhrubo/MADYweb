@@ -157,7 +157,7 @@
   box-shadow: 0 0.6cqw 2.4cqw rgba(0, 0, 0, 0.22);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
-  background: var(--ink);
+  background: #ecd4b2;
 }
 
 .story-card:hover {

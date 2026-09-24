@@ -1,7 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import Image from 'next/image';
 import { Section } from './Section';
 import { Spark } from './Spark';
+import storyBlurData from '../data/storyBlurData.json';
 
 interface StoryRow {
   id: string;
@@ -17,6 +19,12 @@ interface StoryRow {
   swayDelay: string;
 }
 
+const BLUR_DATA: Record<string, string> = {
+  grill: storyBlurData['grill-photo'],
+  roll: storyBlurData['roll-photo'],
+  bite: storyBlurData['fardin_box']
+};
+
 const ROWS: StoryRow[] = [
   {
     id: 'grill',
@@ -24,7 +32,7 @@ const ROWS: StoryRow[] = [
     desc: 'Charred, juicy, non-negotiable.',
     doodleSrc: '/assets/section4/stickers/grill-doodle.png',
     doodleAlt: 'Shawarma grill spit doodle',
-    photoSrc: '/assets/section4/photos/grill-photo.jpg',
+    photoSrc: '/assets/section4/photos/grill-photo.webp',
     photoAlt: 'Fresh chicken shawarma on the grill',
     doodleRotate: -8,
     swayDuration: '4.2s',
@@ -36,7 +44,7 @@ const ROWS: StoryRow[] = [
     desc: 'Warm flatbread, folded tight.',
     doodleSrc: '/assets/section4/stickers/roll-doodle.png',
     doodleAlt: 'Shawarma roll wrap doodle',
-    photoSrc: '/assets/section4/photos/roll-photo.jpg',
+    photoSrc: '/assets/section4/photos/roll-photo.webp',
     photoAlt: 'Master chef rolling shawarma wrap',
     doodleRotate: -5,
     swayDuration: '4.8s',
@@ -48,7 +56,7 @@ const ROWS: StoryRow[] = [
     desc: 'Big flavour. Zero boring.',
     doodleSrc: '/assets/section4/stickers/bite-doodle.png',
     doodleAlt: 'Guy taking a huge bite of shawarma doodle',
-    photoSrc: '/assets/section4/photos/fardin_box.jpg',
+    photoSrc: '/assets/section4/photos/fardin_box.webp',
     photoAlt: 'Mady chef holding fresh takeaway boxes in the kitchen',
     photoPosition: 'center 65%',
     doodleRotate: -10,
@@ -253,11 +261,15 @@ export function StoryBite() {
                     }}
                   >
                     <div className="story-card">
-                      <img
+                      <Image
                         src={row.photoSrc}
                         alt={row.photoAlt}
-                        className="story-card-photo"
-                        loading="lazy"
+                        fill={true}
+                        priority={true}
+                        placeholder="blur"
+                        blurDataURL={BLUR_DATA[row.id]}
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="story-card-photo object-cover"
                         style={row.photoPosition ? { objectPosition: row.photoPosition } : undefined}
                       />
                     </div>
