@@ -56,7 +56,7 @@ export function Header({
 
   return (
     <motion.header
-      className={`header bg-transparent flex justify-between items-center ${open ? 'menu-open z-[1000]' : 'z-50'}`}
+      className={`header bg-transparent flex justify-between items-center ${open ? 'menu-open z-[1000]' : 'z-[110]'}`}
       initial={{ y: -30, opacity: 0 }}
       animate={ready ? { y: 0, opacity: 1 } : {}}
       transition={{ duration: 0.6 }}
@@ -84,7 +84,7 @@ export function Header({
 
       {/* Right-side navigation flex container: (Menu, Facebook, Instagram, Hamburger) */}
       <nav className="flex items-center gap-2 sm:gap-3 flex-nowrap shrink-0">
-        {/* Solid colored Menu pill button with height matching logo */}
+        {/* Solid colored Menu pill button with white border for contrast on red sections */}
         <Link
           href="/menu"
           onClick={(e) => {
@@ -93,39 +93,39 @@ export function Header({
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }
           }}
-          className="h-10 sm:h-12 px-4 sm:px-6 bg-red-600 text-white rounded-full uppercase tracking-wide text-sm sm:text-base font-bold flex items-center justify-center shrink-0 hover:bg-red-700 active:scale-95 transition-all select-none shadow-sm cursor-pointer no-underline"
+          className="h-10 sm:h-12 px-4 sm:px-6 bg-red-600 text-white rounded-full uppercase tracking-wide text-sm sm:text-base font-bold flex items-center justify-center shrink-0 border-2 border-solid border-white shadow-md hover:bg-red-700 active:scale-95 transition-all select-none cursor-pointer no-underline"
         >
           Menu
         </Link>
 
-        {/* Outlined Facebook Social Icon matching logo height */}
+        {/* Outlined Facebook Social Icon with solid beige background */}
         <a
           href="https://www.facebook.com/profile.php?id=61587293055358"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 border-solid border-red-600 text-red-600 bg-transparent hover:bg-red-600 hover:text-white transition-all shrink-0 cursor-pointer no-underline"
+          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 border-solid border-red-600 text-red-600 bg-[#F6E3C8] shadow-sm hover:bg-red-600 hover:text-white transition-all shrink-0 cursor-pointer no-underline"
           aria-label="Mady on Facebook"
           title="Facebook"
         >
           <Facebook size={20} className="sm:w-[22px] sm:h-[22px]" />
         </a>
 
-        {/* Outlined Instagram Social Icon matching logo height */}
+        {/* Outlined Instagram Social Icon with solid beige background */}
         <a
           href="https://www.instagram.com/mady.bd"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 border-solid border-red-600 text-red-600 bg-transparent hover:bg-red-600 hover:text-white transition-all shrink-0 cursor-pointer no-underline"
+          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 border-solid border-red-600 text-red-600 bg-[#F6E3C8] shadow-sm hover:bg-red-600 hover:text-white transition-all shrink-0 cursor-pointer no-underline"
           aria-label="Mady on Instagram"
           title="Instagram"
         >
           <Instagram size={20} className="sm:w-[22px] sm:h-[22px]" />
         </a>
 
-        {/* Compact circular hamburger menu toggle button matching logo height */}
+        {/* Compact circular hamburger menu toggle button with solid beige background */}
         <button
           type="button"
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 border-solid border-red-600 text-red-600 bg-transparent hover:bg-red-600 hover:text-white transition-all shrink-0 cursor-pointer"
+          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 border-solid border-red-600 text-red-600 bg-[#F6E3C8] shadow-sm hover:bg-red-600 hover:text-white transition-all shrink-0 cursor-pointer"
           onClick={() => setOpen(true)}
           aria-haspopup="dialog"
           aria-expanded={open}
