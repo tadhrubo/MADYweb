@@ -24,6 +24,57 @@ export function DoodleStar({
   );
 }
 
+/** 5 radiating tick marks bursting outward under the shawarma wrap */
+export function DoodleBurstTicks({
+  className = "w-10 h-8",
+  color = "#E41B23"
+}: {
+  className?: string;
+  color?: string;
+}) {
+  return (
+    <svg
+      viewBox="0 0 44 32"
+      fill="none"
+      stroke={color}
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <line x1="6" y1="28" x2="12" y2="16" />
+      <line x1="14" y1="30" x2="17" y2="15" />
+      <line x1="22" y1="31" x2="22" y2="14" />
+      <line x1="30" y1="30" x2="27" y2="15" />
+      <line x1="38" y1="28" x2="32" y2="16" />
+    </svg>
+  );
+}
+
+/** 2 parallel angled red tick marks (like //) */
+export function DoodleDoubleTicks({
+  className = "w-6 h-6",
+  color = "#E41B23"
+}: {
+  className?: string;
+  color?: string;
+}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth="2.6"
+      strokeLinecap="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <line x1="6" y1="20" x2="14" y2="4" />
+      <line x1="12" y1="20" x2="20" y2="4" />
+    </svg>
+  );
+}
+
 /** Hand-drawn little sparks (3 radiating lines) */
 export function DoodleSparks({
   className = "w-6 h-6",
