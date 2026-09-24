@@ -5,6 +5,7 @@ interface WavyDividerProps {
   position: 'top' | 'bottom';
   variant?: 'yellow-ribbon' | 'red-cta' | 'footer';
   className?: string;
+  svgClassName?: string;
 }
 
 export function WavyDivider({
@@ -12,6 +13,7 @@ export function WavyDivider({
   position,
   variant = 'yellow-ribbon',
   className = '',
+  svgClassName = '',
 }: WavyDividerProps) {
   // Smooth, organic bezier wave curves matching the visual reference
   const getPath = () => {
@@ -42,7 +44,9 @@ export function WavyDivider({
 
   return (
     <div
-      className={`w-full overflow-hidden leading-none pointer-events-none select-none ${
+      className={`w-full ${
+        position === 'bottom' ? 'overflow-visible' : 'overflow-hidden'
+      } leading-none pointer-events-none select-none ${
         position === 'top' ? '-mb-px' : '-mt-px'
       } ${className}`}
       aria-hidden="true"
@@ -50,7 +54,7 @@ export function WavyDivider({
       <svg
         viewBox={viewBox}
         preserveAspectRatio="none"
-        className={`w-full ${heightClass} block`}
+        className={`w-full ${heightClass} block ${svgClassName}`}
         style={{ fill }}
       >
         <path d={getPath()} />

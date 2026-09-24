@@ -51,8 +51,8 @@ export function CategoryNav({
 
   return (
     <div
-      className={`relative z-30 w-full transition-all duration-300 ${
-        isSticky ? 'sticky top-0 shadow-lg' : ''
+      className={`relative z-30 w-full bg-transparent transition-all duration-300 ${
+        isSticky ? 'sticky top-0' : ''
       }`}
     >
       {/* Top Wavy Edge */}
@@ -96,8 +96,13 @@ export function CategoryNav({
         </div>
       </div>
 
-      {/* Bottom Wavy Edge */}
-      <WavyDivider fill="var(--yellow)" position="bottom" variant="yellow-ribbon" />
+      {/* Bottom Wavy Edge with Organic SVG-Contoured Drop Shadow */}
+      <WavyDivider
+        fill="var(--yellow)"
+        position="bottom"
+        variant="yellow-ribbon"
+        svgClassName={isSticky ? 'drop-shadow-lg transition-all duration-300' : 'transition-all duration-300'}
+      />
     </div>
   );
 }

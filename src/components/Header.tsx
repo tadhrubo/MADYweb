@@ -64,7 +64,7 @@ export function Header({
 
   return (
     <motion.header
-      className={`header ${open ? 'menu-open z-[1000]' : 'z-50'}`}
+      className={`header bg-transparent ${open ? 'menu-open z-[1000]' : 'z-50'}`}
       initial={{ y: -30, opacity: 0 }}
       animate={ready ? { y: 0, opacity: 1 } : {}}
       transition={{ duration: 0.6 }}
