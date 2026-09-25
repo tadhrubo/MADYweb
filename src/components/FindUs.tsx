@@ -42,8 +42,8 @@ const LOCATIONS: LocationInfo[] = [
 
 export function FindUs() {
   return (
-    <Section bg="var(--bg)" order={5} className="find-us-section">
-      <div id="find-us" className="find-us-container max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+    <Section id="find-us" bg="var(--bg)" order={5} className="find-us-section scroll-mt-24">
+      <div className="find-us-container max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
         {/* Section Header */}
         <div className="text-center relative max-w-2xl mx-auto mb-12 md:mb-16">
           <motion.div

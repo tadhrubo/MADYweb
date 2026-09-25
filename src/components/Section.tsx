@@ -8,6 +8,7 @@ export function Section({
   className = '',
   order,
   style = {},
+  id,
 }: {
   children: ReactNode;
   bg: string;
@@ -15,9 +16,11 @@ export function Section({
   className?: string;
   order?: number;
   style?: CSSProperties;
+  id?: string;
 }) {
   return (
     <section
+      id={id}
       className={`section ${className}`}
       style={{
         background: bg,

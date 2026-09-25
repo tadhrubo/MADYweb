@@ -22,35 +22,67 @@ export function Header({
 
   const navigateTo = (path: string) => {
     setOpen(false);
+
+    // Unfocus clicked item so focus management doesn't lock viewport scrolling
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
     if (path === '/menu') {
       if (isMenuPage) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
-      window.location.href = '/menu';
+      window.history.pushState({}, '', '/menu');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
+
     if (path === '/' || path === '#top') {
       if (!isMenuPage) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
-      window.location.href = '/';
+      window.history.pushState({}, '', '/');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
+
     if (path.startsWith('/#') || path.startsWith('#')) {
+      const hash = path.replace('/#', '#');
+
       if (isMenuPage) {
-        window.location.href = path.startsWith('/#') ? path : '/' + path;
+        // Navigating from /menu to a home page section
+        window.history.pushState({}, '', '/' + hash);
+        window.dispatchEvent(new PopStateEvent('popstate'));
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
         return;
       } else {
-        const hash = path.replace('/#', '#');
-        const el = document.querySelector(hash);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
-          return;
-        }
+        // Already on home page
+        window.history.pushState(null, '', hash);
+        const scrollToElement = () => {
+          const el = document.querySelector(hash);
+          if (el) {
+            const headerOffset = 80;
+            const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({
+              top: Math.max(0, elementPosition - headerOffset),
+              behavior: 'smooth',
+            });
+            return true;
+          }
+          return false;
+        };
+
+        // Fire after overlay close transition initiates to prevent animation interference
+        setTimeout(scrollToElement, 60);
+        setTimeout(scrollToElement, 280);
+        return;
       }
     }
+
     window.location.href = path;
   };
 

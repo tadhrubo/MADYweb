@@ -46,6 +46,40 @@ export default function App() {
     console.log('[mady] hero ready');
   }, []);
 
+  // Smooth scroll to target hash section once home page mounts
+  useEffect(() => {
+    if (isMenu) return;
+
+    const scrollToHashTarget = () => {
+      const hash = window.location.hash;
+      if (!hash) return false;
+      const el = document.querySelector(hash);
+      if (el) {
+        const headerOffset = 80;
+        const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: Math.max(0, elementPosition - headerOffset),
+          behavior: 'smooth',
+        });
+        return true;
+      }
+      return false;
+    };
+
+    if (window.location.hash) {
+      if (!scrollToHashTarget()) {
+        const t1 = setTimeout(scrollToHashTarget, 100);
+        const t2 = setTimeout(scrollToHashTarget, 300);
+        const t3 = setTimeout(scrollToHashTarget, 700);
+        return () => {
+          clearTimeout(t1);
+          clearTimeout(t2);
+          clearTimeout(t3);
+        };
+      }
+    }
+  }, [isMenu, ready]);
+
   return (
     <div className="page-wrapper">
       {isMenu ? (

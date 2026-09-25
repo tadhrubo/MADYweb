@@ -22,7 +22,7 @@ export function FoodFeel() {
   const y = useTransform(scrollYProgress, [0, 1], [15, -30]);
 
   return (
-    <Section bg="var(--red)" order={2} className="food-feel pb-36 md:pb-0">
+    <Section id="wrap" bg="var(--red)" order={2} className="food-feel pb-36 md:pb-0 scroll-mt-20">
       <section ref={ref} className="food-feel-body pb-36 md:pb-[105px]">
         <motion.p
           className="experience"
