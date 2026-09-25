@@ -22,7 +22,7 @@ interface StoryRow {
 const BLUR_DATA: Record<string, string> = {
   grill: storyBlurData['grill-photo'],
   roll: storyBlurData['roll-photo'],
-  bite: storyBlurData['fardin_box']
+  bite: storyBlurData['fardin_bite']
 };
 
 const ROWS: StoryRow[] = [
@@ -56,9 +56,9 @@ const ROWS: StoryRow[] = [
     desc: 'Big flavour. Zero boring.',
     doodleSrc: '/assets/section4/stickers/bite-doodle.png',
     doodleAlt: 'Guy taking a huge bite of shawarma doodle',
-    photoSrc: '/assets/section4/photos/fardin_box.webp',
-    photoAlt: 'Mady chef holding fresh takeaway boxes in the kitchen',
-    photoPosition: 'center 65%',
+    photoSrc: '/assets/section4/photos/fardin_bite.webp',
+    photoAlt: 'Mady chef taking a massive bite of loaded shawarma in the kitchen',
+    photoPosition: 'center 30%',
     doodleRotate: -10,
     swayDuration: '4.5s',
     swayDelay: '-2.8s'
