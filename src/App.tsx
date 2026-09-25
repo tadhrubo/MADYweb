@@ -50,33 +50,42 @@ export default function App() {
   useEffect(() => {
     if (isMenu) return;
 
-    const scrollToHashTarget = () => {
-      const hash = window.location.hash;
+    const scrollToHashTarget = (behavior: ScrollBehavior = 'smooth') => {
+      const hash = window.location.hash || sessionStorage.getItem('mady-pending-scroll');
       if (!hash) return false;
       const el = document.querySelector(hash);
       if (el) {
-        const headerOffset = 80;
-        const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+        const headerOffset = window.innerWidth < 768 ? 70 : 80;
+        const targetTop = el.getBoundingClientRect().top + window.scrollY - headerOffset;
         window.scrollTo({
-          top: Math.max(0, elementPosition - headerOffset),
-          behavior: 'smooth',
+          top: Math.max(0, targetTop),
+          behavior,
         });
         return true;
       }
       return false;
     };
 
-    if (window.location.hash) {
-      if (!scrollToHashTarget()) {
-        const t1 = setTimeout(scrollToHashTarget, 100);
-        const t2 = setTimeout(scrollToHashTarget, 300);
-        const t3 = setTimeout(scrollToHashTarget, 700);
-        return () => {
-          clearTimeout(t1);
-          clearTimeout(t2);
-          clearTimeout(t3);
-        };
-      }
+    if (window.location.hash || sessionStorage.getItem('mady-pending-scroll')) {
+      // 1. Instant jump on first frame
+      scrollToHashTarget('auto');
+
+      // 2. Continuous alignment passes as fonts, layout, and images mount
+      const interval = setInterval(() => {
+        scrollToHashTarget('smooth');
+      }, 100);
+
+      // Stop tracking after 1.8 seconds once layout is completely settled
+      const stopTimer = setTimeout(() => {
+        clearInterval(interval);
+        sessionStorage.removeItem('mady-pending-scroll');
+        scrollToHashTarget('smooth');
+      }, 1800);
+
+      return () => {
+        clearInterval(interval);
+        clearTimeout(stopTimer);
+      };
     }
   }, [isMenu, ready]);
 

@@ -55,6 +55,7 @@ export function Header({
 
       if (isMenuPage) {
         // Navigating from /menu to a home page section
+        sessionStorage.setItem('mady-pending-scroll', hash);
         window.history.pushState({}, '', '/' + hash);
         window.dispatchEvent(new PopStateEvent('popstate'));
         window.dispatchEvent(new HashChangeEvent('hashchange'));
