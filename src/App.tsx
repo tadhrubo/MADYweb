@@ -46,20 +46,23 @@ export default function App() {
     console.log('[mady] hero ready');
   }, []);
 
-  if (isMenu) {
-    return <MenuPage />;
-  }
-
   return (
     <div className="page-wrapper">
-      <Preloader done={done} />
-      <Header ready={ready} />
-      <Hero ready={ready} />
-      <Seam />
-      <FoodFeel />
-      <PureQuality />
-      <StoryBite />
-      <FindUs />
+      {isMenu ? (
+        <MenuPage />
+      ) : (
+        <>
+          <Preloader done={done} />
+          <Header ready={ready} />
+          <Hero ready={ready} />
+          <Seam />
+          <FoodFeel />
+          <PureQuality />
+          <StoryBite />
+          <FindUs />
+        </>
+      )}
+      {/* Global Root Food Ninja Footer across all routes */}
       <FoodNinjaFooter />
     </div>
   );

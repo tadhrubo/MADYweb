@@ -4,7 +4,6 @@ import { MenuHero } from './MenuHero';
 import { CategoryNav } from './CategoryNav';
 import { MenuSections } from './MenuSections';
 import { MenuCta } from './MenuCta';
-import { MenuFooter } from './MenuFooter';
 
 export function MenuPage() {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -48,8 +47,6 @@ export function MenuPage() {
         <MenuCta />
       </main>
 
-      {/* MADY Footer */}
-      <MenuFooter />
     </div>
   );
 }

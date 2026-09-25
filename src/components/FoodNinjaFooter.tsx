@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 import Matter from 'matter-js';
 import { Facebook, Instagram } from 'lucide-react';
@@ -120,6 +122,17 @@ export function FoodNinjaFooter() {
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    let isMounted = true;
+    const pendingTimeouts = new Set<ReturnType<typeof setTimeout>>();
+    const safeSetTimeout = (fn: () => void, delay: number) => {
+      const id = setTimeout(() => {
+        pendingTimeouts.delete(id);
+        if (isMounted) fn();
+      }, delay);
+      pendingTimeouts.add(id);
+      return id;
+    };
 
     // Preload Images
     const images: Record<string, HTMLImageElement> = {};
@@ -288,10 +301,11 @@ export function FoodNinjaFooter() {
 
     // Spawn wave timer
     const spawnTimer = setInterval(() => {
+      if (!isMounted) return;
       // Spawn 1 to 2 items in wave
       const count = Math.random() < 0.35 ? 2 : 1;
       for (let i = 0; i < count; i++) {
-        setTimeout(spawnItem, i * 220);
+        safeSetTimeout(spawnItem, i * 220);
       }
     }, 1600);
 
@@ -418,7 +432,7 @@ export function FoodNinjaFooter() {
 
           // Screen shake
           setIsShaking(true);
-          setTimeout(() => setIsShaking(false), 450);
+          safeSetTimeout(() => setIsShaking(false), 450);
 
           floatingScores.push({
             x,
@@ -647,10 +661,13 @@ export function FoodNinjaFooter() {
 
     animationFrameId = requestAnimationFrame(gameLoop);
 
-    // Cleanup
+    // Cleanup (Prevents memory leaks on page transitions)
     return () => {
+      isMounted = false;
       window.removeEventListener('resize', resize);
       clearInterval(spawnTimer);
+      pendingTimeouts.forEach((id) => clearTimeout(id));
+      pendingTimeouts.clear();
       cancelAnimationFrame(animationFrameId);
 
       canvas.removeEventListener('mousedown', handlePointerDown);
@@ -661,8 +678,24 @@ export function FoodNinjaFooter() {
       canvas.removeEventListener('touchmove', handlePointerMove);
       window.removeEventListener('touchend', handlePointerUp);
 
+      // Destroy Matter.js physics engine & world bodies
       Matter.World.clear(engine.world, false);
       Matter.Engine.clear(engine);
+
+      // Clear all active game entities & particle pools
+      activeItems.clear();
+      particles.length = 0;
+      explosions.length = 0;
+      floatingScores.length = 0;
+      trailPoints.length = 0;
+
+      // Close Web Audio Context if active
+      if (audioCtx && (audioCtx as AudioContext).state !== 'closed') {
+        (audioCtx as AudioContext).close().catch(() => {});
+      }
+
+      // Clear canvas render context
+      ctx.clearRect(0, 0, width, height);
     };
   }, []);
 
