@@ -31,7 +31,7 @@ export function ClientLoader({ children, onComplete }: ClientLoaderProps) {
     return false;
   });
 
-  const [stage, setStage] = useState<1 | 2 | 3 | 4>(1);
+  const [stage, setStage] = useState<1 | 2 | 3 | 4 | 5>(1);
   const [isDismissed, setIsDismissed] = useState(false);
 
   useEffect(() => {
@@ -50,41 +50,47 @@ export function ClientLoader({ children, onComplete }: ClientLoaderProps) {
 
     const mountTime = typeof performance !== 'undefined' ? performance.now() : Date.now();
 
-    // Stage 1: Full-screen cream background with red Mady logo (0ms - 350ms)
-    // Stage 2: SVG line drawing + 'PREPARING THE KITCHEN...' (350ms - 750ms)
+    // Stage 1: Full-screen cream background with red Mady logo (0ms - 280ms)
+    // Stage 2: SVG line drawing + 'PREPARING THE KITCHEN...' (280ms - 620ms)
     const tStage2 = setTimeout(() => {
       setStage(2);
-    }, 350);
+    }, 280);
 
-    // Stage 3: Shawarma cutout + CSS-animated flame doodle + 'HOT. FRESH. READY.' (750ms - 1250ms)
+    // Stage 3: 'GRILLING SHAWARMA...' + Shawarma cutout enters (620ms - 980ms)
     const tStage3 = setTimeout(() => {
       setStage(3);
-    }, 750);
+    }, 620);
 
-    // Stage 4: Scale Mady logo up to clip viewport, then translate upward (1250ms - 1600ms)
+    // Stage 4: CSS-animated flame doodle + 'HOT. FRESH. READY.' (980ms - 1320ms)
     const tStage4 = setTimeout(() => {
       setStage(4);
-      onComplete?.();
-    }, 1250);
+    }, 980);
 
-    // Sequence completion: Strictly under 1.8 seconds (1600ms total)
+    // Stage 5: Scale Mady logo up to clip viewport, then translate upward (1320ms - 1620ms)
+    const tStage5 = setTimeout(() => {
+      setStage(5);
+      onComplete?.();
+    }, 1320);
+
+    // Sequence completion: Strictly under 1.8 seconds (1620ms total)
     const tComplete = setTimeout(() => {
       try {
         sessionStorage.setItem('hasVisited', 'true');
       } catch {
         // ignore
       }
-      const elapsed = typeof performance !== 'undefined' ? Math.round(performance.now() - mountTime) : 1600;
+      const elapsed = typeof performance !== 'undefined' ? Math.round(performance.now() - mountTime) : 1620;
       console.log(`[ClientLoader] Sequence completed in ${elapsed}ms`);
       setIsDismissed(true);
       setHasVisited(true);
       onComplete?.();
-    }, 1600);
+    }, 1620);
 
     return () => {
       clearTimeout(tStage2);
       clearTimeout(tStage3);
       clearTimeout(tStage4);
+      clearTimeout(tStage5);
       clearTimeout(tComplete);
     };
   }, [onComplete]);
@@ -105,7 +111,7 @@ export function ClientLoader({ children, onComplete }: ClientLoaderProps) {
         aria-live="polite"
         className="client-loader-overlay fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#F6E3C8] overflow-hidden select-none pointer-events-auto"
         initial={{ y: 0 }}
-        animate={stage === 4 ? { y: '-108%' } : { y: 0 }}
+        animate={stage === 5 ? { y: '-108%' } : { y: 0 }}
         transition={{
           duration: 0.34,
           delay: 0.12, // Brief delay so logo scales up to clip viewport first
@@ -138,13 +144,13 @@ export function ClientLoader({ children, onComplete }: ClientLoaderProps) {
         `}</style>
 
         <div className="relative flex flex-col items-center justify-center w-full max-w-md px-6 py-6 text-center">
-          {/* 1. Red Mady Logo - Scales up to clip viewport in Stage 4 */}
+          {/* 1. Red Mady Logo - Scales up to clip viewport in Stage 5 */}
           <motion.div
             layout
             className="client-loader-logo-wrapper relative z-20 flex items-center justify-center"
             initial={{ scale: 0.88, opacity: 0 }}
             animate={
-              stage === 4
+              stage === 5
                 ? {
                     scale: 26,
                     opacity: 1,
@@ -172,9 +178,9 @@ export function ClientLoader({ children, onComplete }: ClientLoaderProps) {
             className="relative z-10 -mt-1 mb-2 flex items-center justify-center overflow-visible"
             initial={{ opacity: 0 }}
             animate={
-              stage >= 2 && stage < 4
+              stage >= 2 && stage < 5
                 ? { opacity: 1 }
-                : stage === 4
+                : stage === 5
                 ? { opacity: 0, transition: { duration: 0.1 } }
                 : { opacity: 0 }
             }
@@ -198,9 +204,9 @@ export function ClientLoader({ children, onComplete }: ClientLoaderProps) {
             </svg>
           </motion.div>
 
-          {/* 3. Stage 3 Shawarma Cutout Image with CSS-animated Flame Doodle */}
+          {/* 3. Shawarma Cutout Image with CSS-animated Flame Doodle */}
           <AnimatePresence>
-            {stage === 3 && (
+            {(stage === 3 || stage === 4) && (
               <motion.div
                 key="shawarma-cutout-flame"
                 layout
@@ -215,8 +221,8 @@ export function ClientLoader({ children, onComplete }: ClientLoaderProps) {
                   alt="Shawarma"
                   className="w-24 sm:w-28 md:w-32 h-auto max-h-[110px] object-contain drop-shadow-[0_8px_16px_rgba(155,27,32,0.35)]"
                 />
-                {/* CSS-Animated SVG Flame Doodle */}
-                <div className="-mt-3 z-10">
+                {/* CSS-Animated SVG Flame Doodle in Stage 4 */}
+                <div className={`-mt-3 z-10 transition-opacity duration-200 ${stage === 4 ? 'opacity-100' : 'opacity-0'}`}>
                   <svg
                     viewBox="0 0 54 62"
                     fill="none"
@@ -247,7 +253,7 @@ export function ClientLoader({ children, onComplete }: ClientLoaderProps) {
             )}
           </AnimatePresence>
 
-          {/* Sequential Status Text: 'PREPARING THE KITCHEN...' -> 'HOT. FRESH. READY.' */}
+          {/* Sequential Status Text: 'PREPARING THE KITCHEN...' -> 'GRILLING SHAWARMA...' -> 'HOT. FRESH. READY.' */}
           <motion.div layout className="relative flex items-center justify-center mt-2 min-h-[38px]">
             <AnimatePresence mode="wait">
               {stage === 2 && (
@@ -270,6 +276,23 @@ export function ClientLoader({ children, onComplete }: ClientLoaderProps) {
               {stage === 3 && (
                 <motion.p
                   key="stage-3-text"
+                  initial={{ y: 6, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -6, opacity: 0 }}
+                  transition={{ duration: 0.15, ease: 'easeOut' }}
+                  style={{
+                    fontFamily: "'Bebas Neue', Anton, sans-serif",
+                    color: '#E41B23',
+                    letterSpacing: '0.14em',
+                  }}
+                  className="text-2xl sm:text-3xl tracking-[0.14em] m-0 text-center uppercase select-none font-bold"
+                >
+                  GRILLING SHAWARMA...
+                </motion.p>
+              )}
+              {stage === 4 && (
+                <motion.p
+                  key="stage-4-text"
                   initial={{ scale: 0.88, opacity: 0, y: 6 }}
                   animate={{ scale: 1, opacity: 1, y: 0 }}
                   exit={{ opacity: 0, transition: { duration: 0.1 } }}

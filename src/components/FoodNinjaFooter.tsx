@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Matter from 'matter-js';
 import { Facebook, Instagram } from 'lucide-react';
 import { WaveEdge } from './WaveEdge';
+import Link from './Link';
 
 interface FoodType {
   key: string;
@@ -709,20 +710,20 @@ export function FoodNinjaFooter() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           {/* Navigation Links + Social Links */}
           <nav className="flex flex-wrap items-center gap-x-6 sm:gap-x-8 md:gap-x-10 gap-y-2">
-            <a
-              href="#top"
+            <Link
+              href="/"
+              transitionType="wipe"
               className="font-['Bebas_Neue'] text-xl sm:text-2xl tracking-wider text-[var(--ink)] hover:text-[var(--red)] transition-colors"
             >
               HOME
-            </a>
-            <a
-              href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
-              target="_blank"
-              rel="noopener noreferrer"
+            </Link>
+            <Link
+              href="/menu"
+              transitionType="cream"
               className="font-['Bebas_Neue'] text-xl sm:text-2xl tracking-wider text-[var(--ink)] hover:text-[var(--red)] transition-colors"
             >
               MENU
-            </a>
+            </Link>
             <a
               href="#find-us"
               className="font-['Bebas_Neue'] text-xl sm:text-2xl tracking-wider text-[var(--ink)] hover:text-[var(--red)] transition-colors"

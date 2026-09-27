@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X, Facebook, Instagram } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { usePageTransition } from './transitions/PageTransitionContext';
 
 export function Header({
   ready = true,
@@ -12,6 +13,11 @@ export function Header({
 }) {
   const [open, setOpen] = useState(false);
   const close = useRef<HTMLButtonElement>(null);
+
+  let pageTransition: ReturnType<typeof usePageTransition> | null = null;
+  try {
+    pageTransition = usePageTransition();
+  } catch {}
 
   useEffect(() => {
     const esc = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
@@ -26,6 +32,21 @@ export function Header({
     // Unfocus clicked item so focus management doesn't lock viewport scrolling
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
+    }
+
+    if (pageTransition) {
+      if (path === '/menu') {
+        pageTransition.navigate('/menu', { transitionType: 'cream' });
+        return;
+      }
+      if (path === '/' || path === '#top') {
+        pageTransition.navigate('/', { transitionType: 'wipe' });
+        return;
+      }
+      if (path.startsWith('/#') || path.startsWith('#')) {
+        pageTransition.navigate(path, { transitionType: 'wipe' });
+        return;
+      }
     }
 
     if (path === '/menu') {
@@ -95,12 +116,12 @@ export function Header({
       transition={{ duration: 0.6 }}
     >
       <a
-        className="wordmark shrink-0 flex items-center h-10 sm:h-12"
+        className="wordmark shrink-0 flex items-center h-10 sm:h-12 hover:scale-[1.03] active:scale-[0.97] transition-transform cursor-pointer"
         href="/"
         onClick={(e) => {
           if (isMenuPage) {
             e.preventDefault();
-            window.location.href = '/';
+            navigateTo('/');
           }
         }}
         aria-label="Mady home"
@@ -120,13 +141,14 @@ export function Header({
         {/* Solid colored Menu pill button with white border for contrast on red sections */}
         <Link
           href="/menu"
+          transitionType="cream"
           onClick={(e) => {
             if (isMenuPage) {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }
           }}
-          className="h-10 sm:h-12 px-4 sm:px-6 bg-red-600 text-white rounded-full uppercase tracking-wide text-sm sm:text-base font-bold flex items-center justify-center shrink-0 border-2 border-solid border-white shadow-md hover:bg-red-700 active:scale-95 transition-all select-none cursor-pointer no-underline"
+          className="h-10 sm:h-12 px-4 sm:px-6 bg-red-600 text-white rounded-full uppercase tracking-wide text-sm sm:text-base font-bold flex items-center justify-center shrink-0 border-2 border-solid border-white shadow-md hover:bg-red-700 hover:scale-[1.03] active:scale-[0.97] transition-all select-none cursor-pointer no-underline"
         >
           Menu
         </Link>
@@ -136,7 +158,7 @@ export function Header({
           href="https://www.facebook.com/profile.php?id=61587293055358"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 border-solid border-red-600 text-red-600 bg-[#F6E3C8] shadow-sm hover:bg-red-600 hover:text-white transition-all shrink-0 cursor-pointer no-underline"
+          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 border-solid border-red-600 text-red-600 bg-[#F6E3C8] shadow-sm hover:bg-red-600 hover:text-white hover:scale-[1.05] active:scale-[0.96] transition-all shrink-0 cursor-pointer no-underline"
           aria-label="Mady on Facebook"
           title="Facebook"
         >
@@ -148,7 +170,7 @@ export function Header({
           href="https://www.instagram.com/mady.bd"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 border-solid border-red-600 text-red-600 bg-[#F6E3C8] shadow-sm hover:bg-red-600 hover:text-white transition-all shrink-0 cursor-pointer no-underline"
+          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 border-solid border-red-600 text-red-600 bg-[#F6E3C8] shadow-sm hover:bg-red-600 hover:text-white hover:scale-[1.05] active:scale-[0.96] transition-all shrink-0 cursor-pointer no-underline"
           aria-label="Mady on Instagram"
           title="Instagram"
         >
@@ -158,7 +180,7 @@ export function Header({
         {/* Compact circular hamburger menu toggle button with solid beige background */}
         <button
           type="button"
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 border-solid border-red-600 text-red-600 bg-[#F6E3C8] shadow-sm hover:bg-red-600 hover:text-white transition-all shrink-0 cursor-pointer"
+          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 border-solid border-red-600 text-red-600 bg-[#F6E3C8] shadow-sm hover:bg-red-600 hover:text-white hover:scale-[1.05] active:scale-[0.96] transition-all shrink-0 cursor-pointer"
           onClick={() => setOpen(true)}
           aria-haspopup="dialog"
           aria-expanded={open}

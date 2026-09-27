@@ -2,8 +2,16 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { WavyDivider } from './WavyDivider';
 import { DoodleShawarmaMascot } from './Doodles';
+import { usePageTransition } from '../transitions/PageTransitionContext';
 
 export function MenuCta() {
+  const { navigate } = usePageTransition();
+
+  const handleOrderClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate('https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu', { transitionType: 'red' });
+  };
+
   return (
     <section id="shawarma-cta" className="relative w-full overflow-hidden bg-[var(--bg)] mt-8 scroll-mt-12">
       {/* Top Wave Edge transitioning into Red */}
@@ -50,7 +58,8 @@ export function MenuCta() {
                     href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center bg-[var(--yellow)] text-[var(--red)] border-2 border-[var(--ink)] font-['Bebas_Neue'] text-xl sm:text-2xl tracking-widest px-8 py-2.5 sm:py-3 rounded-full shadow-[4px_4px_0px_#1A0B0B] hover:scale-105 active:scale-95 transition-all duration-200 uppercase select-none group cursor-pointer"
+                    onClick={handleOrderClick}
+                    className="inline-flex items-center justify-center bg-[var(--yellow)] text-[var(--red)] border-2 border-[var(--ink)] font-['Bebas_Neue'] text-xl sm:text-2xl tracking-widest px-8 py-2.5 sm:py-3 rounded-full shadow-[4px_4px_0px_#1A0B0B] hover:scale-105 active:scale-[0.97] transition-all duration-200 uppercase select-none group cursor-pointer"
                   >
                     <span>ORDER NOW</span>
                     <span className="ml-2 transform group-hover:translate-x-1 transition-transform">
@@ -81,24 +90,32 @@ export function MenuCta() {
                   <line x1="92" y1="45" x2="100" y2="44" />
                 </svg>
 
-                {/* Shawarma Cutout */}
+                {/* Shawarma Cutout (Physical Placement) */}
                 <motion.img
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  initial={{ opacity: 0, scale: 0.94, y: 30 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
                   src="/assets/menu/cta-shawarma.webp"
                   alt="Mady Real Shawarma"
                   className="w-full h-auto object-contain filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.35)] transform rotate-8 select-none relative z-10"
                   loading="lazy"
                 />
 
-                {/* Tilted Yellow Sticker: BOLD FLAVOR */}
-                <div className="absolute bottom-2 right-4 sm:bottom-4 sm:right-6 z-30 pointer-events-none select-none">
-                  <div className="bg-[var(--yellow)] border-2 border-[var(--ink)] text-[var(--ink)] font-['Lilita_One'] text-base sm:text-lg md:text-xl tracking-wide px-4 py-1.5 rounded-2xl shadow-[3px_3px_0px_#1A0B0B] transform rotate-6 uppercase leading-tight">
+                {/* Tilted Yellow Sticker: BOLD FLAVOR (Physical sticker pop) */}
+                <motion.div
+                  initial={{ scale: 0.75, opacity: 0, rotate: 0 }}
+                  whileInView={{ scale: 1, opacity: 1, rotate: 6 }}
+                  viewport={{ once: true }}
+                  transition={{ type: 'spring', damping: 14, stiffness: 260, delay: 0.2 }}
+                  className="absolute bottom-2 right-4 sm:bottom-4 sm:right-6 z-30 pointer-events-none select-none"
+                >
+                  <div className="bg-[var(--yellow)] border-2 border-[var(--ink)] text-[var(--ink)] font-['Lilita_One'] text-base sm:text-lg md:text-xl tracking-wide px-4 py-1.5 rounded-2xl shadow-[3px_3px_0px_#1A0B0B] uppercase leading-tight">
                     BOLD
                     <br />
                     FLAVOR
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>

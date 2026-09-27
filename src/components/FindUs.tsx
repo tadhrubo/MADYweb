@@ -141,7 +141,7 @@ export function FindUs() {
                   href={loc.directionsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 font-['Bebas_Neue'] text-lg tracking-wider text-white bg-[var(--red)] hover:bg-[var(--maroon)] px-5 py-2 rounded-full shadow-md transition-colors duration-200"
+                  className="inline-flex items-center gap-2 font-['Bebas_Neue'] text-lg tracking-wider text-white bg-[var(--red)] hover:bg-[var(--maroon)] active:scale-[0.97] px-5 py-2 rounded-full shadow-md transition-all duration-200"
                 >
                   <Navigation size={17} />
                   GET DIRECTIONS
@@ -172,7 +172,7 @@ export function FindUs() {
               href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-['Bebas_Neue'] text-lg tracking-wider text-white bg-[#D70F64] hover:bg-[#b50c53] px-5 py-2.5 rounded-full shadow-md transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 font-['Bebas_Neue'] text-lg tracking-wider text-white bg-[#D70F64] hover:bg-[#b50c53] px-5 py-2.5 rounded-full shadow-md transition-all hover:scale-105 active:scale-[0.97]"
             >
               ORDER ON FOODPANDA
             </a>
@@ -180,7 +180,7 @@ export function FindUs() {
               href="https://www.facebook.com/profile.php?id=61587293055358"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-['Bebas_Neue'] text-lg tracking-wider text-white bg-[var(--red)] hover:bg-[var(--maroon)] px-4 py-2.5 rounded-full shadow-md transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 font-['Bebas_Neue'] text-lg tracking-wider text-white bg-[var(--red)] hover:bg-[var(--maroon)] px-4 py-2.5 rounded-full shadow-md transition-all hover:scale-105 active:scale-[0.97]"
               aria-label="Mady on Facebook"
             >
               <Facebook size={18} />
@@ -190,7 +190,7 @@ export function FindUs() {
               href="https://www.instagram.com/mady.bd"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-['Bebas_Neue'] text-lg tracking-wider text-white bg-[var(--red)] hover:bg-[var(--maroon)] px-4 py-2.5 rounded-full shadow-md transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 font-['Bebas_Neue'] text-lg tracking-wider text-white bg-[var(--red)] hover:bg-[var(--maroon)] px-4 py-2.5 rounded-full shadow-md transition-all hover:scale-105 active:scale-[0.97]"
               aria-label="Mady on Instagram"
             >
               <Instagram size={18} />

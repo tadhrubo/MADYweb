@@ -125,13 +125,19 @@ export function DoodleMotion({
   );
 }
 
+import { motion } from 'framer-motion';
+
 /** Hand-drawn scribble / underline */
 export function DoodleUnderline({
   className = "w-48 h-4",
-  color = "#E41B23"
+  color = "#E41B23",
+  animate = false,
+  delay = 0,
 }: {
   className?: string;
   color?: string;
+  animate?: boolean;
+  delay?: number;
 }) {
   return (
     <svg
@@ -143,7 +149,16 @@ export function DoodleUnderline({
       className={className}
       aria-hidden="true"
     >
-      <path d="M3 11C40 7 85 13 130 9C155 7 180 12 197 10" />
+      {animate ? (
+        <motion.path
+          d="M3 11C40 7 85 13 130 9C155 7 180 12 197 10"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 1 }}
+          transition={{ duration: 0.55, delay, ease: 'easeOut' }}
+        />
+      ) : (
+        <path d="M3 11C40 7 85 13 130 9C155 7 180 12 197 10" />
+      )}
     </svg>
   );
 }

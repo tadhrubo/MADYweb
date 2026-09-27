@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { MENU_CATEGORIES } from '../../data/menuData';
 import {
   DoodleStar,
@@ -37,7 +38,14 @@ export function MenuSections({ filterCategory = 'all' }: MenuSectionsProps) {
 
           {/* SECTION: GRAVY */}
           {isVisible('gravy') && (
-            <div id="gravy" className="relative group scroll-mt-28">
+            <motion.div
+              id="gravy"
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+              className="relative group scroll-mt-28"
+            >
               {/* Category Header with Cutout Image & Yellow Sticker */}
               <div className="flex items-center gap-3 sm:gap-5 mb-5 sm:mb-6">
                 <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex-shrink-0">
@@ -86,12 +94,19 @@ export function MenuSections({ filterCategory = 'all' }: MenuSectionsProps) {
               <div className="absolute -bottom-5 left-10 pointer-events-none">
                 <DoodleStar className="w-4 h-4 text-[var(--red)] opacity-80" />
               </div>
-            </div>
+            </motion.div>
           )}
 
           {/* SECTION: RICE PLATTERS */}
           {isVisible('rice-platters') && (
-            <div id="rice-platters" className="relative group scroll-mt-28">
+            <motion.div
+              id="rice-platters"
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.1 }}
+              className="relative group scroll-mt-28"
+            >
               {/* Category Header with Cutout Image & Yellow Sticker */}
               <div className="flex items-center gap-3 sm:gap-5 mb-5 sm:mb-6">
                 <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex-shrink-0">
@@ -140,7 +155,7 @@ export function MenuSections({ filterCategory = 'all' }: MenuSectionsProps) {
               <div className="absolute top-2 right-4 pointer-events-none">
                 <DoodleStar className="w-5 h-5 text-[var(--red)] opacity-80" />
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
 
@@ -154,7 +169,14 @@ export function MenuSections({ filterCategory = 'all' }: MenuSectionsProps) {
 
           {/* SECTION: ADD ONS */}
           {isVisible('add-ons') && (
-            <div id="add-ons" className="relative group scroll-mt-28">
+            <motion.div
+              id="add-ons"
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+              className="relative group scroll-mt-28"
+            >
               {/* Category Header with Cutout Image & Yellow Sticker */}
               <div className="flex items-center gap-3 sm:gap-5 mb-5 sm:mb-6">
                 <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex-shrink-0">
@@ -198,12 +220,19 @@ export function MenuSections({ filterCategory = 'all' }: MenuSectionsProps) {
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           )}
 
           {/* SECTION: SNACKS */}
           {isVisible('snacks') && (
-            <div id="snacks" className="relative group scroll-mt-28">
+            <motion.div
+              id="snacks"
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.1 }}
+              className="relative group scroll-mt-28"
+            >
               {/* Category Header with Yellow Sticker and Cutout Image on the Right */}
               <div className="flex items-center justify-between gap-4 mb-5 sm:mb-6">
                 <div className="relative">
@@ -256,13 +285,20 @@ export function MenuSections({ filterCategory = 'all' }: MenuSectionsProps) {
               <div className="absolute -bottom-4 right-8 pointer-events-none">
                 <DoodleStar className="w-5 h-5 text-[var(--red)] opacity-80" />
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
 
         {/* ROW 3: FULL WIDTH KABAB & GRILLS SECTION */}
         {isVisible('kabab-grills') && (
-          <div id="kabab-grills" className="relative group pt-12 sm:pt-14 scroll-mt-28">
+          <motion.div
+            id="kabab-grills"
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.45, ease: 'easeOut' }}
+            className="relative group pt-12 sm:pt-14 scroll-mt-28"
+          >
             <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6 lg:gap-10">
               {/* Left Side: Kabab Platter Image & Yellow Sticker */}
               <div className="flex items-center gap-4 sm:gap-6 flex-shrink-0">
@@ -337,7 +373,7 @@ export function MenuSections({ filterCategory = 'all' }: MenuSectionsProps) {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </section>

@@ -9,6 +9,8 @@ import { StoryBite } from './components/StoryBite';
 import { FindUs } from './components/FindUs';
 import { FoodNinjaFooter } from './components/FoodNinjaFooter';
 import { MenuPage } from './components/menu/MenuPage';
+import { PageTransitionProvider } from './components/transitions/PageTransitionContext';
+import { PageTransitionOverlay } from './components/transitions/PageTransitionOverlay';
 
 function checkIsMenuRoute(): boolean {
   if (typeof window === 'undefined') return false;
@@ -102,24 +104,27 @@ export default function App() {
   }, [isMenu, ready]);
 
   return (
-    <ClientLoader onComplete={done}>
-      <div className="page-wrapper">
-        {isMenu ? (
-          <MenuPage />
-        ) : (
-          <>
-            <Header ready={ready} />
-            <Hero ready={ready} />
-            <Seam />
-            <FoodFeel />
-            <PureQuality />
-            <StoryBite />
-            <FindUs />
-          </>
-        )}
-        {/* Global Root Food Ninja Footer across all routes */}
-        <FoodNinjaFooter />
-      </div>
-    </ClientLoader>
+    <PageTransitionProvider>
+      <ClientLoader onComplete={done}>
+        <PageTransitionOverlay />
+        <div className="page-wrapper">
+          {isMenu ? (
+            <MenuPage />
+          ) : (
+            <>
+              <Header ready={ready} />
+              <Hero ready={ready} />
+              <Seam />
+              <FoodFeel />
+              <PureQuality />
+              <StoryBite />
+              <FindUs />
+            </>
+          )}
+          {/* Global Root Food Ninja Footer across all routes */}
+          <FoodNinjaFooter />
+        </div>
+      </ClientLoader>
+    </PageTransitionProvider>
   );
 }

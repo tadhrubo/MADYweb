@@ -1,13 +1,22 @@
 import { motion } from 'framer-motion';
+import { usePageTransition } from './transitions/PageTransitionContext';
 
 export function Seam() {
+  const { navigate } = usePageTransition();
+
+  const handleOrder = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate('https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu', { transitionType: 'red' });
+  };
+
   return (
     <div className="seam">
       <a
-        className="order-now -translate-y-6 md:translate-y-0 rounded-full transition-all duration-300 ease-in-out hover:rounded-[50%_20%_60%_30%]"
+        className="order-now -translate-y-6 md:translate-y-0 rounded-full transition-all duration-300 ease-in-out hover:rounded-[50%_20%_60%_30%] active:scale-[0.97] cursor-pointer"
         href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
         target="_blank"
         rel="noopener noreferrer"
+        onClick={handleOrder}
         aria-label="Order on Foodpanda"
       >
         ORDER NOW

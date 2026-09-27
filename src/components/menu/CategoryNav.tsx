@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { WavyDivider } from './WavyDivider';
 import { DoodleStar, DoodleSparks } from './Doodles';
 
@@ -50,7 +51,10 @@ export function CategoryNav({
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, delay: 0.32, ease: 'easeOut' }}
       className={`relative z-30 w-full bg-transparent transition-all duration-300 ${
         isSticky ? 'sticky top-0' : ''
       }`}
@@ -74,22 +78,25 @@ export function CategoryNav({
             aria-label="Menu Categories"
             className="flex items-center justify-start sm:justify-center gap-2 sm:gap-3.5 overflow-x-auto no-scrollbar scroll-smooth py-1 px-1"
           >
-            {CATEGORIES.map((cat) => {
+            {CATEGORIES.map((cat, idx) => {
               const isActive = activeCategory === cat.id;
               return (
-                <button
+                <motion.button
                   key={cat.id}
                   onClick={() => handleClick(cat.id)}
                   type="button"
-                  className={`flex-shrink-0 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full font-['Bebas_Neue'] text-base sm:text-lg md:text-xl tracking-wider transition-all duration-200 select-none border-2 border-[var(--ink)] cursor-pointer ${
+                  initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: isActive ? 1.05 : 1 }}
+                  transition={{ duration: 0.35, delay: 0.35 + idx * 0.04 }}
+                  className={`flex-shrink-0 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full font-['Bebas_Neue'] text-base sm:text-lg md:text-xl tracking-wider transition-all duration-200 select-none border-2 border-[var(--ink)] cursor-pointer active:scale-[0.97] active:transition-transform ${
                     isActive
-                      ? 'bg-[var(--red)] text-white shadow-[2px_2px_0px_#1A0B0B] scale-105'
+                      ? 'bg-[var(--red)] text-white shadow-[2px_2px_0px_#1A0B0B]'
                       : 'bg-[#FFF9EE] text-[var(--ink)] hover:bg-white hover:scale-102 shadow-[2px_2px_0px_#1A0B0B]'
                   }`}
                   aria-pressed={isActive}
                 >
                   {cat.label}
-                </button>
+                </motion.button>
               );
             })}
           </nav>
@@ -103,6 +110,6 @@ export function CategoryNav({
         variant="yellow-ribbon"
         svgClassName={isSticky ? 'drop-shadow-lg transition-all duration-300' : 'transition-all duration-300'}
       />
-    </div>
+    </motion.div>
   );
 }
