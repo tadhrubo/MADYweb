@@ -27,10 +27,6 @@ export default function Link({
 
     // External links (let native browser handle or open new tab)
     if (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto:') || href.startsWith('tel:')) {
-      if (href.includes('foodpanda') && pageTransition) {
-        e.preventDefault();
-        pageTransition.navigate(href, { transitionType: 'red' });
-      }
       return;
     }
 

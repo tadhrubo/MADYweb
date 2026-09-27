@@ -237,9 +237,12 @@ export function Header({
                 href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-['Bebas_Neue'] text-xl sm:text-2xl tracking-widest text-[var(--red)] bg-[var(--yellow)] px-8 py-2.5 rounded-full border-2 border-white shadow-lg hover:scale-105 transition-all"
+                className="inline-flex items-center gap-2 font-['Bebas_Neue'] text-xl sm:text-2xl tracking-widest text-white bg-[var(--red)] border-2 border-white px-8 py-2.5 rounded-full shadow-lg hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-[var(--yellow)] hover:text-[#1A0B0B] hover:border-[#1A0B0B] active:scale-[0.96] active:translate-y-[1.5px] transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--yellow)] motion-reduce:transform-none group cursor-pointer"
               >
-                ORDER ON FOODPANDA
+                <span>ORDER ON FOODPANDA</span>
+                <span className="inline-block font-sans text-xl leading-none transform transition-transform duration-200 ease-out group-hover:translate-x-[5px] motion-reduce:transform-none" aria-hidden="true">
+                  &rarr;
+                </span>
               </a>
 
               <div className="flex items-center gap-4">

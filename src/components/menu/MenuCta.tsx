@@ -2,15 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { WavyDivider } from './WavyDivider';
 import { DoodleShawarmaMascot } from './Doodles';
-import { usePageTransition } from '../transitions/PageTransitionContext';
 
 export function MenuCta() {
-  const { navigate } = usePageTransition();
-
-  const handleOrderClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigate('https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu', { transitionType: 'red' });
-  };
 
   return (
     <section id="shawarma-cta" className="relative w-full overflow-hidden bg-[var(--bg)] mt-8 scroll-mt-12">
@@ -52,17 +45,16 @@ export function MenuCta() {
                   SLOW-GRILLED. FRESH. FULL OF FLAVOR.
                 </p>
 
-                {/* ORDER NOW Yellow Pill Button */}
+                {/* ORDER NOW Foodpanda External Button */}
                 <div className="pt-2">
                   <a
                     href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={handleOrderClick}
-                    className="inline-flex items-center justify-center bg-[var(--yellow)] text-[var(--red)] border-2 border-[var(--ink)] font-['Bebas_Neue'] text-xl sm:text-2xl tracking-widest px-8 py-2.5 sm:py-3 rounded-full shadow-[4px_4px_0px_#1A0B0B] hover:scale-105 active:scale-[0.97] transition-all duration-200 uppercase select-none group cursor-pointer"
+                    className="inline-flex items-center justify-center bg-[var(--red)] text-white border-2 border-white font-['Bebas_Neue'] text-xl sm:text-2xl tracking-widest px-8 py-2.5 sm:py-3 rounded-full shadow-[4px_4px_0px_#1A0B0B] hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-[var(--yellow)] hover:text-[#1A0B0B] hover:border-[#1A0B0B] hover:shadow-[6px_6px_0px_#1A0B0B] active:scale-[0.96] active:translate-y-[1.5px] transition-all duration-200 ease-out uppercase select-none group cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--yellow)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--red)] motion-reduce:transform-none motion-reduce:transition-none"
                   >
                     <span>ORDER NOW</span>
-                    <span className="ml-2 transform group-hover:translate-x-1 transition-transform">
+                    <span className="ml-2.5 inline-block font-sans text-xl leading-none transform transition-transform duration-200 ease-out group-hover:translate-x-[5px] motion-reduce:transform-none" aria-hidden="true">
                       &rarr;
                     </span>
                   </a>

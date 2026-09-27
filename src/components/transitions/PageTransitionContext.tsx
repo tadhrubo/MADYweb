@@ -49,16 +49,6 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
     ) => {
       // 1. External URLs (e.g. Foodpanda, Instagram, Facebook)
       if (to.startsWith('http://') || to.startsWith('https://')) {
-        if (to.includes('foodpanda') || options?.transitionType === 'red') {
-          // Play rich MADY red transition before outbound redirect
-          setTransitionType('red');
-          setIsTransitioning(true);
-          setTimeout(() => {
-            window.open(to, '_blank', 'noopener,noreferrer');
-            setTimeout(() => setIsTransitioning(false), 250);
-          }, 380);
-          return;
-        }
         window.open(to, '_blank', 'noopener,noreferrer');
         return;
       }
