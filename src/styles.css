@@ -432,5 +432,33 @@
   }
 }
 
+/* ==========================================================================
+   CLIENT LOADER (4-STAGE GLOBAL ANIMATION)
+   ========================================================================== */
+@keyframes flameDoodleFlicker {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 3px 8px rgba(228, 27, 35, 0.45));
+  }
+  25% {
+    transform: scale(1.08, 0.94) rotate(-3deg);
+    filter: drop-shadow(0 5px 12px rgba(255, 184, 28, 0.75));
+  }
+  50% {
+    transform: scale(0.96, 1.06) rotate(3deg);
+    filter: drop-shadow(0 3px 9px rgba(228, 27, 35, 0.6));
+  }
+  75% {
+    transform: scale(1.05, 0.97) rotate(-2deg);
+    filter: drop-shadow(0 6px 14px rgba(255, 184, 28, 0.85));
+  }
+}
+
+.client-loader-flame-svg {
+  transform-origin: bottom center;
+  animation: flameDoodleFlicker 0.38s ease-in-out infinite alternate;
+}
+
+
 
 

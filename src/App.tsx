@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
-import { Preloader } from './components/Preloader';
+import { ClientLoader } from './components/ClientLoader';
 import { Seam } from './components/Seam';
 import { FoodFeel } from './components/FoodFeel';
 import { PureQuality } from './components/PureQuality';
@@ -25,7 +25,19 @@ function checkIsMenuRoute(): boolean {
 
 export default function App() {
   const [isMenu, setIsMenu] = useState(checkIsMenuRoute);
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        return (
+          sessionStorage.getItem('hasVisited') === 'true' ||
+          sessionStorage.getItem('mady-loaded') === '1'
+        );
+      } catch {
+        return false;
+      }
+    }
+    return false;
+  });
 
   useEffect(() => {
     const handleLocationChange = () => {
@@ -90,23 +102,24 @@ export default function App() {
   }, [isMenu, ready]);
 
   return (
-    <div className="page-wrapper">
-      {isMenu ? (
-        <MenuPage />
-      ) : (
-        <>
-          <Preloader done={done} />
-          <Header ready={ready} />
-          <Hero ready={ready} />
-          <Seam />
-          <FoodFeel />
-          <PureQuality />
-          <StoryBite />
-          <FindUs />
-        </>
-      )}
-      {/* Global Root Food Ninja Footer across all routes */}
-      <FoodNinjaFooter />
-    </div>
+    <ClientLoader onComplete={done}>
+      <div className="page-wrapper">
+        {isMenu ? (
+          <MenuPage />
+        ) : (
+          <>
+            <Header ready={ready} />
+            <Hero ready={ready} />
+            <Seam />
+            <FoodFeel />
+            <PureQuality />
+            <StoryBite />
+            <FindUs />
+          </>
+        )}
+        {/* Global Root Food Ninja Footer across all routes */}
+        <FoodNinjaFooter />
+      </div>
+    </ClientLoader>
   );
 }
