@@ -459,6 +459,120 @@
   animation: flameDoodleFlicker 0.38s ease-in-out infinite alternate;
 }
 
+/* ==========================================================================
+   CSS PEEL STICKER EFFECT
+   ========================================================================== */
+.sticker-peel {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+/* 2. Folded corner pseudo-element (lower-right) */
+.sticker-peel::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 22%;
+  height: 22%;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(135deg, transparent 40%, rgba(0, 0, 0, 0.14) 40%, rgba(0, 0, 0, 0.22) 50%, #e8e8e8 50%);
+  transform: rotate(0deg);
+  transform-origin: bottom right;
+  box-shadow: -2px -2px 6px rgba(0, 0, 0, 0.18);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* 3. Asymmetric drop shadow covering the whole sticker */
+.sticker-peel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.2), 6px 10px 20px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.35s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 1. Sticker image sits flat with existing rotation */
+.sticker-peel > img,
+.sticker-peel img {
+  position: relative;
+  z-index: 1;
+  transform: translateY(0) rotate(var(--desk-rotate, var(--base-rotate, 0deg)));
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), translate 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 4. On hover of the wrapper (Desktop) */
+@media (min-width: 769px) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sticker-peel:hover::before,
+    .ingredient-sticker:hover .sticker-peel::before,
+    .story-doodle-sway:hover .sticker-peel::before {
+      width: 32%;
+      height: 32%;
+      box-shadow: -4px -4px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    .sticker-peel:hover::after,
+    .ingredient-sticker:hover .sticker-peel::after,
+    .story-doodle-sway:hover .sticker-peel::after {
+      box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.3), 10px 18px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .sticker-peel:hover > img,
+    .sticker-peel:hover img,
+    .ingredient-sticker:hover .sticker-peel > img,
+    .ingredient-sticker:hover .sticker-peel img,
+    .story-doodle-sway:hover .sticker-peel > img,
+    .story-doodle-sway:hover .sticker-peel img {
+      transform: translateY(-3px) rotate(var(--desk-rotate, var(--base-rotate, 0deg)));
+    }
+
+    .sticker-peel:hover .story-doodle-img,
+    .story-doodle-sway:hover .sticker-peel .story-doodle-img {
+      translate: 0 -3px;
+    }
+  }
+}
+
+/* 5. Mobile (max-width 768px) and prefers-reduced-motion fallbacks */
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  .sticker-peel:hover::before,
+  .ingredient-sticker:hover .sticker-peel::before,
+  .story-doodle-sway:hover .sticker-peel::before {
+    width: 22% !important;
+    height: 22% !important;
+    box-shadow: -2px -2px 6px rgba(0, 0, 0, 0.18) !important;
+    transform: rotate(0deg) !important;
+    transition: none !important;
+  }
+
+  .sticker-peel:hover::after,
+  .ingredient-sticker:hover .sticker-peel::after,
+  .story-doodle-sway:hover .sticker-peel::after {
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.2), 6px 10px 20px rgba(0, 0, 0, 0.1) !important;
+    transition: none !important;
+  }
+
+  .sticker-peel:hover > img,
+  .sticker-peel:hover img,
+  .ingredient-sticker:hover .sticker-peel > img,
+  .ingredient-sticker:hover .sticker-peel img,
+  .story-doodle-sway:hover .sticker-peel > img,
+  .story-doodle-sway:hover .sticker-peel img {
+    transform: translateY(0) rotate(var(--desk-rotate, var(--base-rotate, 0deg))) !important;
+    translate: 0 0 !important;
+    transition: none !important;
+  }
+}
+
+
 
 
 

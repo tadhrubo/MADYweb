@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import { Section } from './Section';
 import { Spark } from './Spark';
+import { StickerPeel } from './StickerPeel';
 import storyBlurData from '../data/storyBlurData.json';
 
 interface StoryRow {
@@ -236,13 +237,18 @@ export function StoryBite() {
                         } as React.CSSProperties
                       }
                     >
-                      <img
-                        src={row.doodleSrc}
-                        alt={row.doodleAlt}
-                        className="story-doodle-img drop-shadow-xl relative z-50"
-                        loading="lazy"
+                      <StickerPeel
+                        className={`sticker-peel-${row.id}`}
+                        data-doodle={row.id}
                         style={getDoodleStyle(row, scrollY)}
-                      />
+                      >
+                        <img
+                          src={row.doodleSrc}
+                          alt={row.doodleAlt}
+                          className="story-doodle-img drop-shadow-xl relative z-50"
+                          loading="lazy"
+                        />
+                      </StickerPeel>
                     </div>
                   </motion.div>
                 </div>

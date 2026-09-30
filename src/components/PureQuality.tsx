@@ -4,6 +4,7 @@ import { Section } from './Section';
 import { ingredients, Ingredient } from '../content/ingredients';
 import { Magnet } from './Magnet';
 import { Spark } from './Spark';
+import { StickerPeel } from './StickerPeel';
 
 const HEADLINE_LINES = ['BUILT', 'DIFFERENT', 'FROM THE', 'BREAD UP'];
 
@@ -101,15 +102,17 @@ function IngredientItem({
       >
         {/* 3. Magnet wrapper */}
         <Magnet padding={80} strength={4} maxOffset={16}>
-          {/* 4. img element */}
-          <img
-            src={`/assets/ingredients/${item.slot}.webp`}
-            alt={item.slot}
-            width="900"
-            height="900"
-            className="sticker-img"
-            decoding="async"
-          />
+          {/* 4. img element wrapped with StickerPeel */}
+          <StickerPeel className={`sticker-peel-${item.slot}`} data-slot={item.slot}>
+            <img
+              src={`/assets/ingredients/${item.slot}.webp`}
+              alt={item.slot}
+              width="900"
+              height="900"
+              className="sticker-img"
+              decoding="async"
+            />
+          </StickerPeel>
         </Magnet>
       </motion.div>
     </motion.div>
