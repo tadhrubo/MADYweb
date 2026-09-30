@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform, useSpring, type MotionValue } from 'framer-motion';
 import Image from 'next/image';
 import { Section } from './Section';
 import { Spark } from './Spark';
@@ -66,45 +66,90 @@ const ROWS: StoryRow[] = [
   }
 ];
 
-function getDoodleStyle(row: StoryRow, scrollY: number): React.CSSProperties {
-  if (row.doodleSrc.includes('grill-doodle.png') || row.id === 'grill') {
-    return {
-      transform: `translateY(${scrollY * 0.15}px) perspective(500px) rotate(${Math.sin(scrollY * 0.005) * 12}deg) rotateX(${Math.cos(scrollY * 0.005) * 15}deg)`
-    };
-  }
-  if (row.doodleSrc.includes('roll-doodle.png') || row.id === 'roll') {
-    return {
-      transform: `translateY(${scrollY * -0.1}px) perspective(500px) rotate(${-Math.sin(scrollY * 0.005) * 10}deg) rotateY(${Math.cos(scrollY * 0.005) * 18}deg)`
-    };
-  }
-  if (row.doodleSrc.includes('bite-doodle.png') || row.id === 'bite') {
-    return {
-      transform: `translateY(${scrollY * 0.08}px) perspective(500px) rotate(${Math.cos(scrollY * 0.005) * 14}deg) rotateX(${Math.sin(scrollY * 0.005) * 12}deg)`
-    };
-  }
-  return {};
+function DoodleScrollSticker({
+  row,
+  scrollYProgress,
+  isMobile,
+  prefersReduced,
+}: {
+  row: StoryRow;
+  scrollYProgress: MotionValue<number>;
+  isMobile: boolean;
+  prefersReduced: boolean | null;
+}) {
+  const arrival = row.id === 'grill' ? 0.22 : row.id === 'roll' ? 0.28 : 0.34;
+  const startVh = isMobile ? 80 : 120;
+  const exitVh = isMobile ? -20 : -40;
+
+  // Map scrollYProgress to translateY:
+  // - At progress 0 (section not yet visible): translateY = +120vh (mobile: +80vh)
+  // - At arrival (0.22 grill, 0.28 roll, 0.34 bite): translateY = 0 (arrived at natural position)
+  // - Holds at natural position (translateY = 0) while reading section content
+  // - At progress 0.85: translateY = -40vh (mobile: -20vh) (exited upward)
+  const rawVh = useTransform(
+    scrollYProgress,
+    [0, arrival, 0.7, 0.85],
+    [startVh, 0, 0, exitVh]
+  );
+  const springVh = useSpring(rawVh, { stiffness: 60, damping: 20 });
+  const translateY = useTransform(springVh, (v) => `${v}vh`);
+
+  return (
+    <motion.div
+      className={`story-doodle-scroll-wrap story-doodle-scroll-${row.id} relative z-50`}
+      style={prefersReduced ? {} : { y: translateY }}
+      initial={prefersReduced ? { opacity: 0 } : undefined}
+      whileInView={prefersReduced ? { opacity: 1 } : undefined}
+      viewport={prefersReduced ? { once: true, amount: 0.1 } : undefined}
+      transition={prefersReduced ? { duration: 0.6, ease: 'easeOut' } : undefined}
+    >
+      <div
+        className="story-doodle-sway relative z-50"
+        style={
+          {
+            '--base-rotate': `${row.doodleRotate}deg`,
+            '--sway-duration': row.swayDuration,
+            '--sway-delay': row.swayDelay,
+          } as React.CSSProperties
+        }
+      >
+        <StickerPeel
+          className={`sticker-peel-${row.id}`}
+          data-doodle={row.id}
+        >
+          <img
+            src={row.doodleSrc}
+            alt={row.doodleAlt}
+            className="story-doodle-img drop-shadow-xl relative z-50"
+            loading="lazy"
+          />
+        </StickerPeel>
+      </div>
+    </motion.div>
+  );
 }
 
 export function StoryBite() {
   const prefersReduced = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
   const rowsContainerRef = useRef<HTMLDivElement>(null);
   const card1Ref = useRef<HTMLDivElement>(null);
   const card3Ref = useRef<HTMLDivElement>(null);
 
   const [connectorGeometry, setConnectorGeometry] = useState<{ top: number; height: number } | null>(null);
-  const [scrollY, setScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
 
   useEffect(() => {
     function updateConnector() {
@@ -138,7 +183,7 @@ export function StoryBite() {
   }, []);
 
   return (
-    <Section bg="var(--yellow)" order={4} className="story-section">
+    <Section ref={sectionRef} bg="var(--yellow)" order={4} className="story-section" id="story-bite">
       <div className="story-container">
         {/* Header Block */}
         <motion.div
@@ -216,41 +261,12 @@ export function StoryBite() {
               >
                 {/* Left Column: Doodle */}
                 <div className="story-col story-col-doodle relative z-50">
-                  <motion.div
-                    className="story-doodle-entrance relative z-50"
-                    variants={{
-                      hidden: { x: prefersReduced ? 0 : -60, opacity: 0 },
-                      visible: {
-                        x: 0,
-                        opacity: 1,
-                        transition: { duration: 0.7, ease: 'easeOut' }
-                      }
-                    }}
-                  >
-                    <div
-                      className="story-doodle-sway relative z-50"
-                      style={
-                        {
-                          '--base-rotate': `${row.doodleRotate}deg`,
-                          '--sway-duration': row.swayDuration,
-                          '--sway-delay': row.swayDelay
-                        } as React.CSSProperties
-                      }
-                    >
-                      <StickerPeel
-                        className={`sticker-peel-${row.id}`}
-                        data-doodle={row.id}
-                        style={getDoodleStyle(row, scrollY)}
-                      >
-                        <img
-                          src={row.doodleSrc}
-                          alt={row.doodleAlt}
-                          className="story-doodle-img drop-shadow-xl relative z-50"
-                          loading="lazy"
-                        />
-                      </StickerPeel>
-                    </div>
-                  </motion.div>
+                  <DoodleScrollSticker
+                    row={row}
+                    scrollYProgress={scrollYProgress}
+                    isMobile={isMobile}
+                    prefersReduced={prefersReduced}
+                  />
                 </div>
 
                 {/* Center Column: Photo Card */}

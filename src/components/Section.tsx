@@ -1,15 +1,7 @@
-import { CSSProperties, ReactNode } from 'react';
+import { CSSProperties, ReactNode, forwardRef } from 'react';
 import { WaveEdge } from './WaveEdge';
 
-export function Section({
-  children,
-  bg,
-  wave = true,
-  className = '',
-  order,
-  style = {},
-  id,
-}: {
+export const Section = forwardRef<HTMLElement, {
   children: ReactNode;
   bg: string;
   wave?: boolean;
@@ -17,9 +9,21 @@ export function Section({
   order?: number;
   style?: CSSProperties;
   id?: string;
-}) {
+}>(function Section(
+  {
+    children,
+    bg,
+    wave = true,
+    className = '',
+    order,
+    style = {},
+    id,
+  },
+  ref
+) {
   return (
     <section
+      ref={ref}
       id={id}
       className={`section ${className}`}
       style={{
@@ -33,4 +37,5 @@ export function Section({
       <div className="section-inner">{children}</div>
     </section>
   );
-}
+});
+
