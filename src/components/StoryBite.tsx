@@ -3,7 +3,6 @@ import { motion, useReducedMotion, useScroll, useTransform, useSpring, type Moti
 import Image from 'next/image';
 import { Section } from './Section';
 import { Spark } from './Spark';
-import { StickerPeel } from './StickerPeel';
 import storyBlurData from '../data/storyBlurData.json';
 
 interface StoryRow {
@@ -113,17 +112,12 @@ function DoodleScrollSticker({
           } as React.CSSProperties
         }
       >
-        <StickerPeel
-          className={`sticker-peel-${row.id}`}
-          data-doodle={row.id}
-        >
-          <img
-            src={row.doodleSrc}
-            alt={row.doodleAlt}
-            className="story-doodle-img drop-shadow-xl relative z-50"
-            loading="lazy"
-          />
-        </StickerPeel>
+        <img
+          src={row.doodleSrc}
+          alt={row.doodleAlt}
+          className="story-doodle-img drop-shadow-xl relative z-50"
+          loading="lazy"
+        />
       </div>
     </motion.div>
   );
