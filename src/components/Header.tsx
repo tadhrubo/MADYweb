@@ -1,3 +1,5 @@
+'use client';
+
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X, Facebook, Instagram } from 'lucide-react';
 import Link from 'next/link';

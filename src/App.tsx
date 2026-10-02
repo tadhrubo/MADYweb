@@ -7,10 +7,12 @@ import { FoodFeel } from './components/FoodFeel';
 import { PureQuality } from './components/PureQuality';
 import { StoryBite } from './components/StoryBite';
 import { FindUs } from './components/FindUs';
-import { FoodNinjaFooter } from './components/FoodNinjaFooter';
+import dynamic from 'next/dynamic';
 import { MenuPage } from './components/menu/MenuPage';
 import { PageTransitionProvider } from './components/transitions/PageTransitionContext';
 import { PageTransitionOverlay } from './components/transitions/PageTransitionOverlay';
+
+const FoodNinjaFooter = dynamic(() => import('@/components/FoodNinjaFooter'), { ssr: false });
 
 function checkIsMenuRoute(): boolean {
   if (typeof window === 'undefined') return false;

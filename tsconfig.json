@@ -16,8 +16,13 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./src/*"],
       "next/image": ["./src/components/Image.tsx"],
-      "next/link": ["./src/components/Link.tsx"]
+      "next/link": ["./src/components/Link.tsx"],
+      "next/dynamic": ["./src/utils/dynamic.tsx"],
+      "next/script": ["./src/components/Script.tsx"],
+      "next/font/google": ["./src/utils/fontGoogle.ts"],
+      "next/font/local": ["./src/utils/fontLocal.ts"]
     }
   },
   "include": ["src"]

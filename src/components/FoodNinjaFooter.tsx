@@ -799,3 +799,6 @@ export function FoodNinjaFooter() {
     </footer>
   );
 }
+
+export default FoodNinjaFooter;
+

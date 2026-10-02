@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { MapPin, Navigation, Clock, Facebook, Instagram } from 'lucide-react';
 import { Section } from './Section';
