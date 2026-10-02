@@ -45,10 +45,10 @@ export function MenuCta() {
                   SLOW-GRILLED. FRESH. FULL OF FLAVOR.
                 </p>
 
-                {/* ORDER NOW Foodpanda External Button */}
+                {/* ORDER NOW Facebook Messenger Direct Link */}
                 <div className="pt-2">
                   <a
-                    href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
+                    href="https://m.me/61587293055358"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center bg-[var(--red)] text-white border-2 border-white font-['Bebas_Neue'] text-xl sm:text-2xl tracking-widest px-8 py-2.5 sm:py-3 rounded-full shadow-[4px_4px_0px_#1A0B0B] hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-[var(--yellow)] hover:text-[#1A0B0B] hover:border-[#1A0B0B] hover:shadow-[6px_6px_0px_#1A0B0B] active:scale-[0.96] active:translate-y-[1.5px] transition-all duration-200 ease-out uppercase select-none group cursor-pointer focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--yellow)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--red)] motion-reduce:transform-none motion-reduce:transition-none"

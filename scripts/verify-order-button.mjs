@@ -24,7 +24,7 @@ async function testOrderButton() {
       sessionStorage.setItem('hasVisited', 'true');
     });
 
-    await deskPage.goto('http://localhost:5173/', { waitUntil: 'domcontentloaded' });
+    await deskPage.goto('http://localhost:4173/', { waitUntil: 'domcontentloaded' });
     await deskPage.waitForTimeout(500);
 
     const seamBtn = deskPage.locator('.order-now');
@@ -34,12 +34,14 @@ async function testOrderButton() {
     const restBg = await seamBtn.evaluate((el) => window.getComputedStyle(el).backgroundColor);
     const restHref = await seamBtn.getAttribute('href');
     const restTarget = await seamBtn.getAttribute('target');
+    const restRel = await seamBtn.getAttribute('rel');
     console.log(`✓ Rest background: ${restBg} (MADY Red)`);
     console.log(`✓ External URL: ${restHref}`);
     console.log(`✓ Opens in new tab (target): ${restTarget}`);
+    console.log(`✓ Rel security: ${restRel}`);
 
-    if (!restHref.includes('foodpanda')) {
-      throw new Error('Expected href to point to Foodpanda');
+    if (restHref !== 'https://m.me/61587293055358') {
+      throw new Error(`Expected href to be 'https://m.me/61587293055358', got '${restHref}'`);
     }
 
     await deskPage.screenshot({
@@ -101,7 +103,7 @@ async function testOrderButton() {
     const mobPage = await mobContext.newPage();
     await mobPage.addInitScript(() => sessionStorage.setItem('hasVisited', 'true'));
 
-    await mobPage.goto('http://localhost:5173/', { waitUntil: 'domcontentloaded' });
+    await mobPage.goto('http://localhost:4173/', { waitUntil: 'domcontentloaded' });
     await mobPage.waitForTimeout(500);
 
     const mobSeamBtn = mobPage.locator('.order-now');
@@ -135,14 +137,22 @@ async function testOrderButton() {
     // Test 3: Menu CTA ORDER NOW Button
     // -------------------------------------------------------------
     console.log('\n--- 3. Menu CTA ORDER Button Tests ---');
-    await deskPage.goto('http://localhost:5173/menu', { waitUntil: 'domcontentloaded' });
+    await deskPage.goto('http://localhost:4173/menu', { waitUntil: 'domcontentloaded' });
     await deskPage.waitForTimeout(500);
 
     const menuCtaBtn = deskPage.locator('#shawarma-cta a');
     await menuCtaBtn.scrollIntoViewIfNeeded();
 
     const menuCtaHref = await menuCtaBtn.getAttribute('href');
+    const menuCtaTarget = await menuCtaBtn.getAttribute('target');
+    const menuCtaRel = await menuCtaBtn.getAttribute('rel');
     console.log(`✓ Menu CTA href: ${menuCtaHref}`);
+    console.log(`✓ Menu CTA target: ${menuCtaTarget}`);
+    console.log(`✓ Menu CTA rel: ${menuCtaRel}`);
+
+    if (menuCtaHref !== 'https://m.me/61587293055358') {
+      throw new Error(`Expected Menu CTA href to be 'https://m.me/61587293055358', got '${menuCtaHref}'`);
+    }
 
     await menuCtaBtn.hover();
     await deskPage.waitForTimeout(250);

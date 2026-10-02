@@ -5,10 +5,10 @@ export function Seam() {
     <div className="seam">
       <a
         className="order-now -translate-y-6 md:translate-y-0 cursor-pointer group"
-        href="https://www.foodpanda.com.bd/restaurant/sjiu/mady-sjiu"
+        href="https://m.me/61587293055358"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Order on Foodpanda"
+        aria-label="Order on Messenger"
       >
         <span>ORDER NOW</span>
         <span className="order-arrow" aria-hidden="true">&rarr;</span>
