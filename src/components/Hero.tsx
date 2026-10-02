@@ -1,7 +1,6 @@
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { hero } from '../content/hero';
-import { FitText } from './FitText';
 import { Magnet } from './Magnet';
 import { StickerWord } from './StickerWord';
 
@@ -42,8 +41,10 @@ export function Hero({ ready }: { ready: boolean }) {
 
   return (
     <section id="top" ref={root} className="hero">
-      <motion.div className="headline" style={{ y: headY }}>
-        <FitText className="headline-text">{hero.headline}</FitText>
+      <motion.div className="headline w-full text-center overflow-hidden" style={{ y: headY }}>
+        <h1 className="headline-text w-full text-center text-[14vw] md:text-[150px] lg:text-[12rem]">
+          {hero.headline}
+        </h1>
       </motion.div>
       <motion.div
         className="food-shell"
