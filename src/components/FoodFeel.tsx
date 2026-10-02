@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 import { Section } from './Section';
 import { Spark } from './Spark';
 
@@ -10,7 +11,13 @@ function Glove({ side }: { side: 'left' | 'right' }) {
         animate={{ x: [-6, 6, -6] }}
         transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <img src="/assets/glove.png" alt="" aria-hidden="true" />
+        <Image
+          src="/assets/glove.png"
+          alt=""
+          width={500}
+          height={500}
+          aria-hidden="true"
+        />
       </motion.div>
     </div>
   );
@@ -53,12 +60,11 @@ export function FoodFeel() {
           whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true }}
         >
-          <img
+          <Image
             src="/assets/shawarma-hero.png"
             alt="Mady chicken shawarma in branded paper wrap"
-            width="274"
-            height="458"
-            decoding="async"
+            width={274}
+            height={458}
           />
           <Glove side="left" />
           <Glove side="right" />

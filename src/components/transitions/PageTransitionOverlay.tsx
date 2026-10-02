@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePageTransition, TransitionType } from './PageTransitionContext';
 
@@ -45,9 +46,12 @@ export function PageTransitionOverlay() {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.25 }}
       >
-        <img
+        <Image
           src="/assets/madySolo.png"
           alt="Mady"
+          width={192}
+          height={93}
+          priority={true}
           className={`w-48 h-auto object-contain ${isRed ? 'brightness-0 invert' : ''}`}
         />
       </motion.div>
@@ -106,11 +110,12 @@ export function PageTransitionOverlay() {
             }}
             className="flex items-center justify-center"
           >
-            <img
+            <Image
               src="/assets/madySolo.png"
               alt="Mady"
-              width="240"
-              height="116"
+              width={240}
+              height={116}
+              priority={true}
               className={`w-44 sm:w-56 md:w-64 h-auto object-contain block drop-shadow-[0_6px_16px_rgba(155,27,32,0.2)] ${
                 isRed ? 'brightness-0 invert' : ''
               }`}
@@ -175,9 +180,12 @@ export function PageTransitionOverlay() {
             }}
             className="absolute z-10 pointer-events-none"
           >
-            <img
+            <Image
               src="/assets/shawarma-hero.png"
               alt="Mady Shawarma"
+              width={274}
+              height={458}
+              priority={true}
               className="w-20 sm:w-28 md:w-32 h-auto object-contain filter drop-shadow-[0_12px_24px_rgba(155,27,32,0.35)]"
             />
           </motion.div>

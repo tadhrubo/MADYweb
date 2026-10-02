@@ -1,5 +1,6 @@
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { hero } from '../content/hero';
 import { Magnet } from './Magnet';
 import { StickerWord } from './StickerWord';
@@ -55,7 +56,13 @@ export function Hero({ ready }: { ready: boolean }) {
       >
         <motion.div animate={{ y: [-6, 6, -6] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}>
           <Magnet>
-            <img src={hero.image} width="274" height="458" decoding="async" alt={hero.alt} />
+            <Image
+              src={hero.image}
+              width={274}
+              height={458}
+              priority={true}
+              alt={hero.alt}
+            />
             {hero.showEyes && <Eyes />}
           </Magnet>
         </motion.div>

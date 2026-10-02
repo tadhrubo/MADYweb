@@ -112,11 +112,12 @@ function DoodleScrollSticker({
           } as React.CSSProperties
         }
       >
-        <img
+        <Image
           src={row.doodleSrc}
           alt={row.doodleAlt}
+          width={1500}
+          height={1700}
           className="story-doodle-img drop-shadow-xl relative z-50"
-          loading="lazy"
         />
       </div>
     </motion.div>

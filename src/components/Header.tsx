@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X, Facebook, Instagram } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { usePageTransition } from './transitions/PageTransitionContext';
 
@@ -126,12 +127,12 @@ export function Header({
         }}
         aria-label="Mady home"
       >
-        <img
+        <Image
           src="/assets/madySolo.png"
           alt="Mady"
-          width="180"
-          height="76"
-          decoding="async"
+          width={180}
+          height={76}
+          priority={true}
           className="h-10 sm:h-12 w-auto object-contain block"
         />
       </a>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { MENU_CATEGORIES } from '../../data/menuData';
 import {
@@ -49,11 +50,12 @@ export function MenuSections({ filterCategory = 'all' }: MenuSectionsProps) {
               {/* Category Header with Cutout Image & Yellow Sticker */}
               <div className="flex items-center gap-3 sm:gap-5 mb-5 sm:mb-6">
                 <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex-shrink-0">
-                  <img
+                  <Image
                     src={gravyCat.image}
                     alt={gravyCat.imageAlt}
+                    width={1024}
+                    height={1024}
                     className="w-full h-full object-contain filter drop-shadow-[0_10px_16px_rgba(155,27,32,0.22)] transform -rotate-6 transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
                   />
                   <div className="absolute -top-1 -right-1 pointer-events-none">
                     <DoodleSparks className="w-5 h-5 text-[var(--red)]" />
@@ -110,11 +112,12 @@ export function MenuSections({ filterCategory = 'all' }: MenuSectionsProps) {
               {/* Category Header with Cutout Image & Yellow Sticker */}
               <div className="flex items-center gap-3 sm:gap-5 mb-5 sm:mb-6">
                 <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex-shrink-0">
-                  <img
+                  <Image
                     src={riceCat.image}
                     alt={riceCat.imageAlt}
+                    width={1024}
+                    height={1024}
                     className="w-full h-full object-contain filter drop-shadow-[0_10px_16px_rgba(155,27,32,0.22)] transform rotate-6 transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
                   />
                   <div className="absolute -top-1 -left-2 pointer-events-none">
                     <DoodleMotion className="w-6 h-6 text-[var(--red)]" />
@@ -180,11 +183,12 @@ export function MenuSections({ filterCategory = 'all' }: MenuSectionsProps) {
               {/* Category Header with Cutout Image & Yellow Sticker */}
               <div className="flex items-center gap-3 sm:gap-5 mb-5 sm:mb-6">
                 <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex-shrink-0">
-                  <img
+                  <Image
                     src={addOnsCat.image}
                     alt={addOnsCat.imageAlt}
+                    width={1024}
+                    height={1024}
                     className="w-full h-full object-contain filter drop-shadow-[0_10px_16px_rgba(155,27,32,0.22)] transform -rotate-3 transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
                   />
                   <div className="absolute -bottom-2 -left-1 pointer-events-none">
                     <DoodleSwirl className="w-6 h-6 text-[var(--red)]" />
@@ -248,11 +252,12 @@ export function MenuSections({ filterCategory = 'all' }: MenuSectionsProps) {
 
                 {/* Shawarma Wrap Cutout positioned on the right */}
                 <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex-shrink-0">
-                  <img
+                  <Image
                     src={snacksCat.image}
                     alt={snacksCat.imageAlt}
+                    width={1024}
+                    height={1024}
                     className="w-full h-full object-contain filter drop-shadow-[0_10px_16px_rgba(155,27,32,0.22)] transform rotate-12 transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
                   />
                   <div className="absolute -bottom-2 -right-1 pointer-events-none">
                     <DoodleSparks className="w-5 h-5 text-[var(--red)]" />
@@ -303,11 +308,12 @@ export function MenuSections({ filterCategory = 'all' }: MenuSectionsProps) {
               {/* Left Side: Kabab Platter Image & Yellow Sticker */}
               <div className="flex items-center gap-4 sm:gap-6 flex-shrink-0">
                 <div className="relative w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44">
-                  <img
+                  <Image
                     src={kababCat.image}
                     alt={kababCat.imageAlt}
+                    width={1024}
+                    height={1024}
                     className="w-full h-full object-contain filter drop-shadow-[0_12px_20px_rgba(155,27,32,0.22)] transform -rotate-6 transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
                   />
                   <div className="absolute -top-2 left-2 pointer-events-none">
                     <DoodleSwirl className="w-7 h-7 text-[var(--red)]" />

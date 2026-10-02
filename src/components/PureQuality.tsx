@@ -1,5 +1,6 @@
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { Section } from './Section';
 import { ingredients, Ingredient } from '../content/ingredients';
 import { Magnet } from './Magnet';
@@ -101,14 +102,13 @@ function IngredientItem({
       >
         {/* 3. Magnet wrapper */}
         <Magnet padding={80} strength={4} maxOffset={16}>
-          {/* 4. img element */}
-          <img
+          {/* 4. Next.js Image component */}
+          <Image
             src={`/assets/ingredients/${item.slot}.webp`}
             alt={item.slot}
-            width="900"
-            height="900"
+            width={900}
+            height={900}
             className="sticker-img"
-            decoding="async"
           />
         </Magnet>
       </motion.div>

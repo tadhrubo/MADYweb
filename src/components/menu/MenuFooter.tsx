@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { DoodleSparks, DoodleStar } from './Doodles';
 import { WavyDivider } from './WavyDivider';
 
@@ -52,42 +53,48 @@ export function MenuFooter() {
 
           {/* Left Ingredients: Fresh Lettuce & Red Onion */}
           <div className="relative -mr-4 sm:-mr-8 flex items-center z-10">
-            <img
+            <Image
               src="/assets/ingredients/lettuce.webp"
               alt="Fresh Crisp Lettuce"
+              width={830}
+              height={900}
               className="w-16 sm:w-22 md:w-26 h-auto object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.15)] transform -rotate-12"
-              loading="lazy"
             />
-            <img
+            <Image
               src="/assets/ingredients/red-onion.webp"
               alt="Crisp Red Onion Slice"
+              width={900}
+              height={735}
               className="w-14 sm:w-18 md:w-20 h-auto object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.15)] -ml-5 sm:-ml-7 transform rotate-6"
-              loading="lazy"
             />
           </div>
 
           {/* Central Red MADY Logo */}
           <div className="relative z-20 mx-1 sm:mx-3">
-            <img
+            <Image
               src="/assets/madySolo.png"
               alt="MADY"
+              width={976}
+              height={475}
               className="w-40 sm:w-56 md:w-68 h-auto object-contain filter drop-shadow-[3px_4px_0px_var(--maroon)]"
             />
           </div>
 
           {/* Right Ingredients: Fresh Lemon & Garlic + Grilled Flatbread */}
           <div className="relative -ml-4 sm:-ml-8 flex items-center z-10">
-            <img
+            <Image
               src="/assets/ingredients/lemon-garlic.webp"
               alt="Fresh Lemon & Garlic"
+              width={1024}
+              height={1024}
               className="w-16 sm:w-22 md:w-26 h-auto object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.15)] transform -rotate-6"
-              loading="lazy"
             />
-            <img
+            <Image
               src="/assets/ingredients/flatbread.webp"
               alt="Fresh Grilled Flatbread"
+              width={900}
+              height={559}
               className="w-14 sm:w-18 md:w-20 h-auto object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.15)] -ml-5 sm:-ml-7 transform rotate-12"
-              loading="lazy"
             />
           </div>
 

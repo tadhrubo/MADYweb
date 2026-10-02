@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export interface ClientLoaderProps {
@@ -163,11 +164,12 @@ export function ClientLoader({ children, onComplete }: ClientLoaderProps) {
                   }
             }
           >
-            <img
+            <Image
               src="/assets/madySolo.png"
               alt="Mady"
-              width="260"
-              height="126"
+              width={260}
+              height={126}
+              priority={true}
               className="w-52 sm:w-64 md:w-72 h-auto object-contain block drop-shadow-[0_4px_14px_rgba(155,27,32,0.22)]"
             />
           </motion.div>
@@ -216,9 +218,12 @@ export function ClientLoader({ children, onComplete }: ClientLoaderProps) {
                 transition={{ type: 'spring', damping: 14, stiffness: 240 }}
                 className="flex flex-col items-center justify-center my-1"
               >
-                <img
+                <Image
                   src="/assets/shawarma-hero.png"
                   alt="Shawarma"
+                  width={274}
+                  height={458}
+                  priority={true}
                   className="w-24 sm:w-28 md:w-32 h-auto max-h-[110px] object-contain drop-shadow-[0_8px_16px_rgba(155,27,32,0.35)]"
                 />
                 {/* CSS-Animated SVG Flame Doodle in Stage 4 */}

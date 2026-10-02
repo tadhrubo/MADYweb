@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Matter from 'matter-js';
 import { Facebook, Instagram } from 'lucide-react';
 import { WaveEdge } from './WaveEdge';
@@ -18,49 +19,49 @@ interface FoodType {
 const FOOD_TYPES: FoodType[] = [
   {
     key: 'chicken',
-    wholeSrc: '/assets/foodNinja/chickenWhole.png',
-    cutASrc: '/assets/foodNinja/chickenCut_A.png',
-    cutBSrc: '/assets/foodNinja/chickenCut_B.png',
+    wholeSrc: '/assets/foodNinja/chickenWhole.webp',
+    cutASrc: '/assets/foodNinja/chickenCut_A.webp',
+    cutBSrc: '/assets/foodNinja/chickenCut_B.webp',
     particleColor: '#D97706',
     radius: 46
   },
   {
     key: 'flatbread',
-    wholeSrc: '/assets/foodNinja/flatbreadWhole.png',
-    cutASrc: '/assets/foodNinja/flatbreadCut_A.png',
-    cutBSrc: '/assets/foodNinja/flatbreadCut_B.png',
+    wholeSrc: '/assets/foodNinja/flatbreadWhole.webp',
+    cutASrc: '/assets/foodNinja/flatbreadCut_A.webp',
+    cutBSrc: '/assets/foodNinja/flatbreadCut_B.webp',
     particleColor: '#FDE68A',
     radius: 48
   },
   {
     key: 'lettuce',
-    wholeSrc: '/assets/foodNinja/lettuceWhole.png',
-    cutASrc: '/assets/foodNinja/lettuceCut_A.png',
-    cutBSrc: '/assets/foodNinja/lettuceCut_B.png',
+    wholeSrc: '/assets/foodNinja/lettuceWhole.webp',
+    cutASrc: '/assets/foodNinja/lettuceCut_A.webp',
+    cutBSrc: '/assets/foodNinja/lettuceCut_B.webp',
     particleColor: '#22C55E',
     radius: 44
   },
   {
     key: 'onion',
-    wholeSrc: '/assets/foodNinja/onionWhole.png',
-    cutASrc: '/assets/foodNinja/onionCut_A.png',
-    cutBSrc: '/assets/foodNinja/onionCut_B.png',
+    wholeSrc: '/assets/foodNinja/onionWhole.webp',
+    cutASrc: '/assets/foodNinja/onionCut_A.webp',
+    cutBSrc: '/assets/foodNinja/onionCut_B.webp',
     particleColor: '#A855F7',
     radius: 42
   },
   {
     key: 'pickle',
-    wholeSrc: '/assets/foodNinja/pickleWhole.png',
-    cutASrc: '/assets/foodNinja/pickleCut_A.png',
-    cutBSrc: '/assets/foodNinja/pickleCut_B.png',
+    wholeSrc: '/assets/foodNinja/pickleWhole.webp',
+    cutASrc: '/assets/foodNinja/pickleCut_A.webp',
+    cutBSrc: '/assets/foodNinja/pickleCut_B.webp',
     particleColor: '#84CC16',
     radius: 40
   },
   {
     key: 'redChili',
-    wholeSrc: '/assets/foodNinja/redChiliWhole.png',
-    cutASrc: '/assets/foodNinja/redChiliCut_A.png',
-    cutBSrc: '/assets/foodNinja/redChiliCut_B.png',
+    wholeSrc: '/assets/foodNinja/redChiliWhole.webp',
+    cutASrc: '/assets/foodNinja/redChiliCut_A.webp',
+    cutBSrc: '/assets/foodNinja/redChiliCut_B.webp',
     particleColor: '#EF4444',
     radius: 38
   }
@@ -138,13 +139,13 @@ export function FoodNinjaFooter() {
     // Preload Images
     const images: Record<string, HTMLImageElement> = {};
     const loadImg = (key: string, src: string) => {
-      const img = new Image();
+      const img = new window.Image();
       img.src = src;
       images[key] = img;
     };
 
-    loadImg('bomb', '/assets/foodNinja/bomb.png');
-    loadImg('bombExplode', '/assets/foodNinja/bombExplode.png');
+    loadImg('bomb', '/assets/foodNinja/bomb.webp');
+    loadImg('bombExplode', '/assets/foodNinja/bombExplode.webp');
 
     FOOD_TYPES.forEach((food) => {
       loadImg(`${food.key}_whole`, food.wholeSrc);
@@ -779,9 +780,11 @@ export function FoodNinjaFooter() {
       <canvas id="ninja-canvas" className="ninja-canvas" ref={canvasRef} />
 
       {/* Massive Crav-Style Mady Logo at Bottom */}
-      <img
+      <Image
         src="/assets/madySolo.png"
         alt="Mady"
+        width={976}
+        height={475}
         className="footer-giant-logo"
         aria-hidden="true"
       />

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import {
   DoodleStar,
   DoodleSparks,
@@ -33,11 +34,13 @@ export function MenuHero() {
             </motion.div>
 
             {/* Shawarma Wrap Tilted Diagonally at ~ -40deg */}
-            <img
+            <Image
               src="/assets/menu/hero-shawarma.webp"
               alt="Mady Fresh Grilled Shawarma Wrap"
+              width={1024}
+              height={1024}
+              priority={true}
               className="w-full h-auto object-contain filter drop-shadow-[0_16px_28px_rgba(155,27,32,0.22)] transform -rotate-[40deg]"
-              loading="eager"
             />
 
             {/* Hand-drawn red radiating motion dashes under shawarma */}
@@ -73,11 +76,13 @@ export function MenuHero() {
             </motion.div>
 
             {/* Biryani Bowl */}
-            <img
+            <Image
               src="/assets/menu/biryani.webp"
               alt="Mady Fragrant Chicken Biryani Bowl"
+              width={1024}
+              height={1024}
+              priority={true}
               className="w-full h-auto object-contain filter drop-shadow-[0_16px_28px_rgba(155,27,32,0.22)] transform rotate-6"
-              loading="eager"
             />
           </div>
         </motion.div>

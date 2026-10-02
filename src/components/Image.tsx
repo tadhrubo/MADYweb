@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
 
 export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'placeholder' | 'src'> {
   src: string;
@@ -14,30 +14,27 @@ export interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElemen
   style?: React.CSSProperties;
 }
 
-export default function Image({
-  src,
-  alt,
-  width,
-  height,
-  fill = false,
-  priority = false,
-  placeholder = 'empty',
-  blurDataURL,
-  sizes,
-  className = '',
-  style,
-  ...rest
-}: ImageProps) {
+export const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
+  {
+    src,
+    alt,
+    width,
+    height,
+    fill = false,
+    priority = false,
+    placeholder = 'empty',
+    blurDataURL,
+    sizes,
+    className = '',
+    style,
+    onLoad,
+    ...rest
+  },
+  ref
+) {
   const [loaded, setLoaded] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
 
-  useEffect(() => {
-    if (imgRef.current && imgRef.current.complete) {
-      setLoaded(true);
-    }
-  }, []);
-
-  // Preload link in document head when priority is enabled
+  // Preload link in document head when priority is enabled (Next.js LCP behavior)
   useEffect(() => {
     if (priority && typeof document !== 'undefined') {
       const link = document.createElement('link');
@@ -53,57 +50,54 @@ export default function Image({
     }
   }, [src, priority]);
 
-  const imgStyle: React.CSSProperties = {
-    ...style,
-    ...(fill
+  const fillStyle: React.CSSProperties = fill
+    ? {
+        position: 'absolute',
+        height: '100%',
+        width: '100%',
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+      }
+    : {};
+
+  const blurStyle: React.CSSProperties =
+    placeholder === 'blur' && blurDataURL && !loaded
       ? {
-          position: 'absolute',
-          height: '100%',
-          width: '100%',
-          inset: 0,
+          backgroundImage: `url("${blurDataURL}")`,
+          backgroundSize: 'cover',
+          backgroundPosition: '50% 50%',
+          backgroundRepeat: 'no-repeat',
         }
-      : {}),
-    transition: 'opacity 0.35s ease-out',
-    opacity: loaded || !blurDataURL ? 1 : 0,
-  };
+      : {};
 
   return (
-    <div
-      className={`relative overflow-hidden ${fill ? 'w-full h-full' : ''}`}
+    <img
+      ref={ref}
+      src={src}
+      alt={alt}
+      width={fill ? undefined : width}
+      height={fill ? undefined : height}
+      loading={priority ? 'eager' : 'lazy'}
+      // @ts-ignore fetchPriority is supported in modern browsers
+      fetchPriority={priority ? 'high' : 'auto'}
+      decoding={priority ? 'sync' : 'async'}
+      sizes={sizes}
+      className={className}
       style={{
-        width: fill ? '100%' : width,
-        height: fill ? '100%' : height,
+        ...fillStyle,
+        ...blurStyle,
+        ...style,
       }}
-    >
-      {/* Instant Blur Placeholder */}
-      {placeholder === 'blur' && blurDataURL && !loaded && (
-        <img
-          src={blurDataURL}
-          alt=""
-          aria-hidden="true"
-          className={`absolute inset-0 w-full h-full object-cover filter blur-md scale-110 pointer-events-none transition-opacity duration-300 ${
-            loaded ? 'opacity-0' : 'opacity-100'
-          }`}
-          style={style}
-        />
-      )}
-
-      {/* Main High-Resolution Image */}
-      <img
-        ref={imgRef}
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        loading={priority ? 'eager' : 'lazy'}
-        fetchPriority={priority ? 'high' : 'auto'}
-        decoding={priority ? 'sync' : 'async'}
-        sizes={sizes}
-        className={`${className} ${fill ? 'object-cover w-full h-full' : ''}`}
-        style={imgStyle}
-        onLoad={() => setLoaded(true)}
-        {...rest}
-      />
-    </div>
+      onLoad={(e) => {
+        setLoaded(true);
+        onLoad?.(e);
+      }}
+      {...rest}
+    />
   );
-}
+});
+
+export default Image;
+
